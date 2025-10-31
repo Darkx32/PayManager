@@ -97,6 +97,12 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('pt'),
   ];
+
+  /// No description provided for @home_page_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home_page_title;
 }
 
 class _AppLocalizationsDelegate

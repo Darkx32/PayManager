@@ -1,3 +1,5 @@
 {
-    "@@locale": "en"
+    "@@locale": "en",
+    "home_page_title": "Home",
+    "@home_page_title": {}
 }

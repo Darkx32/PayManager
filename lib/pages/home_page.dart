@@ -11,7 +11,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        shape: CircleBorder(),
+        child: const Icon(Icons.add),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          children: [
+            Text(""),
+            Center(
+              child: Text("Hello World"),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
