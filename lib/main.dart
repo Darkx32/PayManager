@@ -1,13 +1,22 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:pay_manager/l10n/app_localizations.dart";
+import "package:pay_manager/pages/bankslip_page.dart";
 import "package:pay_manager/pages/home_page.dart";
+import "package:pay_manager/preferences.dart";
+import "package:provider/provider.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(const PayManagerApp()); 
+  final prefs = await SharedPreferences.getInstance();
+  String language = prefs.getString("language") ?? "en";
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => LanguageNotifier(language), 
+    child: const PayManagerApp())); 
 }
 
 class PayManagerApp extends StatefulWidget {
@@ -20,11 +29,13 @@ class PayManagerApp extends StatefulWidget {
 class _PayManagerState extends State<PayManagerApp> {
   @override
   Widget build(BuildContext context) {
+    final languageNotifier = context.watch<LanguageNotifier>();
+
     return MaterialApp(
       title: "PayManager",
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale("en"),
+      locale: Locale(languageNotifier.language),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.purple,
@@ -42,7 +53,8 @@ class _PayManagerState extends State<PayManagerApp> {
       themeMode: ThemeMode.system,
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage()
+        '/': (context) => const HomePage(),
+        '/bankslip': (context) => const BankSlipPage()
       },
     );
   }

@@ -12,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {Navigator.pushNamed(context, "/bankslip");},
         shape: CircleBorder(),
         child: const Icon(Icons.add),
       ),
@@ -20,10 +20,6 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(12),
         child: Column(
           children: [
-            Text(""),
-            Center(
-              child: Text("Hello World"),
-            )
           ],
         ),
       ),
