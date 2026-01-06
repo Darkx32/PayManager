@@ -38,14 +38,14 @@ class _PayManagerState extends State<PayManagerApp> {
       locale: Locale(languageNotifier.language),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.purple,
+          seedColor: Colors.blueGrey,
           brightness: Brightness.light
         ),
         fontFamily: "Poppins"
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.purple,
+          seedColor: Colors.blueGrey,
           brightness: Brightness.dark
         ),
         fontFamily: "Poppins"
