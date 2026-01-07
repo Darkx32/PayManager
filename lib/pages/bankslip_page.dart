@@ -1,6 +1,7 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class BankSlipPage extends StatefulWidget {
@@ -12,6 +13,8 @@ class BankSlipPage extends StatefulWidget {
 
 class _BankSlipState extends State<BankSlipPage> {
   ScanResult? scanResult;
+
+  final _key = GlobalKey<ExpandableFabState>();
 
   final _flashOnController = TextEditingController(text: "Flash on");
   final _flashOffController = TextEditingController(text: "Flash off");
@@ -35,37 +38,37 @@ class _BankSlipState extends State<BankSlipPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Stack(
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: ExpandableFab(
+        key: _key,
         children: [
-          SingleChildScrollView(
+          FloatingActionButton.small(
+            heroTag: null,
+            onPressed: _scan,
+            child: const Icon(Symbols.barcode_scanner)),
+          FloatingActionButton.small(
+            heroTag: null,
+            onPressed: () {},
+            child: const Icon(Symbols.barcode)),
+          FloatingActionButton.small(
+            heroTag: null,
+            onPressed: () {},
+            child: const Icon(Icons.done),)
+        ],
+      ),
+      body: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
             child: Column(
               children: List.generate(20, (i) => 
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  height: 50,
-                  color: Colors.grey[200],
-                  child: Center(child: Text("Campo de formulário $i")),
-                )
-              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                height: 50,
+                color: Colors.grey[200],
+                child: Center(child: Text("Campo de formulário $i")),
+              )
             ),
           ),
-          Positioned(bottom: 0, left: 0, right: 0, height: 100, child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.transparent, Theme.of(context).colorScheme.primaryContainer], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-            ),
-          )),
-          Positioned(bottom: 25,
-          left: 0,
-          right: 0,
-          child: Row(spacing: 5,
-            children: [
-              Expanded(flex: 3, child: OutlinedButton(onPressed: () => _scan(), child: Icon(Symbols.barcode_scanner))),
-              Expanded(flex: 1, child: OutlinedButton(onPressed: () {}, child: Icon(Symbols.barcode)))
-            ],
-          ))
-        ],
-      ),
+        ),
     );
   }
 
