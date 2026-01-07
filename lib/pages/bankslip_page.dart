@@ -24,7 +24,6 @@ class _BankSlipState extends State<BankSlipPage> {
 
   static final _possibleFormats = BarcodeFormat.values.toList()
     ..removeWhere((e) => e == BarcodeFormat.unknown);
-
   List<BarcodeFormat> selectedFormats = [..._possibleFormats];
 
   @override
@@ -36,20 +35,36 @@ class _BankSlipState extends State<BankSlipPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Column(),
-            Spacer(),
-            Row(spacing: 5,
-              children: [
-                Expanded(flex: 3, child: OutlinedButton(onPressed: () => _scan(), child: Icon(Symbols.barcode_scanner))),
-                Expanded(flex: 1, child: OutlinedButton(onPressed: () {}, child: Icon(Symbols.barcode)))
-              ],
-            )
-          ],
-        ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
+            child: Column(
+              children: List.generate(20, (i) => 
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  height: 50,
+                  color: Colors.grey[200],
+                  child: Center(child: Text("Campo de formulário $i")),
+                )
+              ),
+            ),
+          ),
+          Positioned(bottom: 0, left: 0, right: 0, height: 100, child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [Colors.transparent, Theme.of(context).colorScheme.primaryContainer], begin: Alignment.topCenter, end: Alignment.bottomCenter)
+            ),
+          )),
+          Positioned(bottom: 25,
+          left: 0,
+          right: 0,
+          child: Row(spacing: 5,
+            children: [
+              Expanded(flex: 3, child: OutlinedButton(onPressed: () => _scan(), child: Icon(Symbols.barcode_scanner))),
+              Expanded(flex: 1, child: OutlinedButton(onPressed: () {}, child: Icon(Symbols.barcode)))
+            ],
+          ))
+        ],
       ),
     );
   }
