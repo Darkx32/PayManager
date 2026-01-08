@@ -19,8 +19,8 @@ dependencies:
   connectivity_plus: ^7.0.0
   flutter_launcher_icons: ^0.14.4
   material_symbols_icons: ^4.2892.0
-  barcode_scan2: ^4.6.0
   flutter_expandable_fab: ^2.5.2
+  mobile_scanner: ^7.1.4
 
 dev_dependencies:
   flutter_test:
