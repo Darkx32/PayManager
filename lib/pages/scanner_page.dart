@@ -37,9 +37,11 @@ class _ScannerPageState extends State<ScannerPage> {
       appBar: AppBar(),
       body: MobileScanner(
         onDetect: (capture) {
-          for (final barcode in capture.barcodes) {
-            debugPrint("Código encontrado: ${barcode.rawValue}");
-          }
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              Navigator.pop(context, capture.barcodes.firstOrNull?.displayValue);
+            }
+          });
         },
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pay_manager/core/bankslip.dart';
+import 'package:pay_manager/pages/scanner_page.dart';
 
 class BankSlipPage extends StatefulWidget {
   const BankSlipPage({super.key});
@@ -21,10 +23,23 @@ class _BankSlipState extends State<BankSlipPage> {
     decimalDigits: 2
   );
 
+  double totalValue = 0.0;
+
   @override
   void initState() {
     super.initState();
-    bankSlips.add(BankSlip.createBankSlipDataUsingBarcode("34191132000000976981090189577400336372867000"));
+    setState(() {
+      bankSlips.add(BankSlip.createBankSlipDataUsingBarcode("23792372059237481415767022195308213150000382633"));
+    });
+    updateTotalValue();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); 
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    super.dispose();
   }
 
   @override
@@ -38,7 +53,13 @@ class _BankSlipState extends State<BankSlipPage> {
           FloatingActionButton.small(
             heroTag: null,
             onPressed: () async {
-              Navigator.pushNamed(context, "/scanner");
+              final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const ScannerPage()));
+              if (barcode == null) return;
+
+              setState(() {
+                bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+              });
+              updateTotalValue();
             },
             child: const Icon(Symbols.barcode_scanner)),
           FloatingActionButton.small(
@@ -51,7 +72,10 @@ class _BankSlipState extends State<BankSlipPage> {
             child: const Icon(Icons.done),)
         ],
       ),
-      body: SingleChildScrollView(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+        SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
             child: Column(
               children: [
@@ -102,9 +126,42 @@ class _BankSlipState extends State<BankSlipPage> {
                       ],
                     ),
                   )
-          ]
+            ]
+          ),
         ),
-      )
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 80,
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              border: Border.all(
+                color: Colors.transparent
+              ),
+              borderRadius: BorderRadius.circular(15)
+            ),
+            child: Row(
+              children: [
+                Text("Total: ", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)),
+                Text("R\$ $totalValue", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer))
+              ],
+            ),
+          )
+        )
+      ])
     );
+  }
+
+  void updateTotalValue() {
+    double newTotal = 0.0;
+    for (final bankSlip in bankSlips) {
+      newTotal += bankSlip.value;
+    }
+    setState(() {
+      totalValue = newTotal;
+    });
   }
 }
