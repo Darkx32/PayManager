@@ -16,6 +16,7 @@ class BankSlipPage extends StatefulWidget {
 class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
   List<BankSlip> bankSlips = [];
+  bool _isLongPressed = false;
 
   final currencyFormat = NumberFormat.currency(
     locale: "pt_BR",
@@ -80,7 +81,21 @@ class _BankSlipState extends State<BankSlipPage> {
             child: Column(
               children: [
                 for(BankSlip bankSlip in bankSlips)
-                  Container(
+                  GestureDetector(
+                    onTap: () {
+                      if (_isLongPressed) return;
+                      _updateClipboard(bankSlip.barcode);
+                    },
+                    onLongPress: () {
+                      _isLongPressed = true;
+                    },
+                    onTapDown: (details) {
+                      _isLongPressed = false;
+                    },
+                    onTapCancel: () {
+                      _isLongPressed = true;
+                    },
+                    child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surfaceContainerHigh,
                       border: Border.all(
@@ -125,7 +140,8 @@ class _BankSlipState extends State<BankSlipPage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                ),
             ]
           ),
         ),
@@ -163,5 +179,9 @@ class _BankSlipState extends State<BankSlipPage> {
     setState(() {
       totalValue = newTotal;
     });
+  }
+
+  Future<void> _updateClipboard(String value) async {
+    await Clipboard.setData(ClipboardData(text: value));
   }
 }
