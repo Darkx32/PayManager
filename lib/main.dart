@@ -3,7 +3,6 @@ import "package:flutter/services.dart";
 import "package:pay_manager/l10n/app_localizations.dart";
 import "package:pay_manager/pages/bankslip_page.dart";
 import "package:pay_manager/pages/home_page.dart";
-import "package:pay_manager/pages/scanner_page.dart";
 import "package:pay_manager/preferences.dart";
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
@@ -55,8 +54,7 @@ class _PayManagerState extends State<PayManagerApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
-        '/bankslip': (context) => const BankSlipPage(),
-        '/scanner': (context) => const ScannerPage()
+        '/bankslip': (context) => const BankSlipPage()
       },
     );
   }

@@ -21,6 +21,7 @@ dependencies:
   material_symbols_icons: ^4.2892.0
   flutter_expandable_fab: ^2.5.2
   mobile_scanner: ^7.1.4
+  mask_text_input_formatter: ^2.9.0
 
 dev_dependencies:
   flutter_test:

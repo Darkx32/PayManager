@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/pages/scanner_page.dart';
+import 'package:pay_manager/pages/writebarcode_page.dart';
 
 class BankSlipPage extends StatefulWidget {
   const BankSlipPage({super.key});
@@ -17,12 +18,6 @@ class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
   List<BankSlip> bankSlips = [];
   bool _isLongPressed = false;
-
-  final currencyFormat = NumberFormat.currency(
-    locale: "pt_BR",
-    symbol: "R\$",
-    decimalDigits: 2
-  );
 
   double totalValue = 0.0;
 
@@ -65,7 +60,15 @@ class _BankSlipState extends State<BankSlipPage> {
             child: const Icon(Symbols.barcode_scanner)),
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () async {
+              final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const WriteBarcode()));
+              if (barcode == null) return;
+
+              setState(() {
+                bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+              });
+              updateTotalValue();
+            },
             child: const Icon(Symbols.barcode)),
           FloatingActionButton.small(
             heroTag: null,
@@ -133,7 +136,7 @@ class _BankSlipState extends State<BankSlipPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text("Value:", style: TextStyle(fontWeight: FontWeight.w800)),
-                                Text(currencyFormat.format(bankSlip.value), style: TextStyle(color: Colors.green[600]))
+                                Text(bankSlip.getCurrencyToString(), style: TextStyle(color: Colors.green[600]))
                               ],
                             ),
                           ]

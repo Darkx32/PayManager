@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class BankSlip {
   static final DateTime _dateTime = DateTime(2022, 5, 29);
 
@@ -5,7 +7,17 @@ class BankSlip {
   late DateTime date;
   late double value;
 
+  final _currencyFormat = NumberFormat.currency(
+    locale: "pt_BR",
+    symbol: "R\$",
+    decimalDigits: 2
+  );
+
   BankSlip(this.barcode, this.date, this.value);
+
+  String getCurrencyToString() {
+    return _currencyFormat.format(value);
+  }
 
   static BankSlip createBankSlipDataUsingBarcode(String barcode) {
     DateTime actualTimeDate = _dateTime;
