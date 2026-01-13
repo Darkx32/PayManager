@@ -53,8 +53,7 @@ class _PayManagerState extends State<PayManagerApp> {
       themeMode: ThemeMode.system,
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage(),
-        '/bankslip': (context) => const BankSlipPage()
+        '/': (context) => const HomePage()
       },
     );
   }

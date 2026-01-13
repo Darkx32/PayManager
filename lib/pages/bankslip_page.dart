@@ -4,6 +4,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pay_manager/core/bankslip.dart';
+import 'package:pay_manager/core/bankslip_save.dart';
 import 'package:pay_manager/pages/scanner_page.dart';
 import 'package:pay_manager/pages/writebarcode_page.dart';
 
@@ -16,7 +17,7 @@ class BankSlipPage extends StatefulWidget {
 
 class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
-  List<BankSlip> _bankSlips = [];
+  final List<BankSlip> _bankSlips = [];
   final List<String> _toDelete = [];
   bool _isLongPressed = false;
 
@@ -119,7 +120,23 @@ class _BankSlipState extends State<BankSlipPage> {
             child: const Icon(Symbols.barcode)),
           FloatingActionButton.small(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () {
+              if (_bankSlips.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("You don't added any bankslip"),
+                    duration: const Duration(seconds: 3),
+                  )
+                );
+              } else {
+                List<String> allBarcodes = [];
+                for(final bankslip in _bankSlips) {
+                  allBarcodes.add(bankslip.barcode);
+                }
+                BankslipSave bankslipSave = BankslipSave(barcodes: allBarcodes, date: DateTime.now(), totalValue: _totalValue);
+                Navigator.pop(context, bankslipSave);
+              }
+            },
             child: const Icon(Icons.done),)
         ],
       ),
