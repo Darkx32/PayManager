@@ -8,7 +8,8 @@ class BankSlip {
   late double value;
 
   final _currencyFormat = NumberFormat.currency(
-    locale: "pt_BR",
+    name: "pt_BR",
+    locale: "BRL",
     symbol: "R\$",
     decimalDigits: 2
   );

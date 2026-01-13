@@ -17,9 +17,43 @@ class BankSlipPage extends StatefulWidget {
 class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
   List<BankSlip> bankSlips = [];
+  final List<String> _toDelete = [];
   bool _isLongPressed = false;
 
   double totalValue = 0.0;
+
+  void _updateTotalValue() {
+    double newTotal = 0.0;
+    for (final bankSlip in bankSlips) {
+      newTotal += bankSlip.value;
+    }
+    setState(() {
+      totalValue = newTotal;
+    });
+  }
+
+  void _setToDelete(String barcode) {
+    setState(() {
+      if (_toDelete.contains(barcode)) {
+        _toDelete.remove(barcode);
+      } else {
+        _toDelete.add(barcode);
+      }
+    });
+  }
+
+  bool _deleteItem(BankSlip bankSlip) {
+    final barcode = bankSlip.barcode;
+    final hasInList = _toDelete.contains(barcode);
+
+    _toDelete.remove(barcode);
+
+    return hasInList;
+  }
+
+  Future<void> _updateClipboard(String value) async {
+    await Clipboard.setData(ClipboardData(text: value));
+  }
 
   @override
   void initState() {
@@ -27,7 +61,7 @@ class _BankSlipState extends State<BankSlipPage> {
     setState(() {
       bankSlips.add(BankSlip.createBankSlipDataUsingBarcode("23792372059237481415767022195308213150000382633"));
     });
-    updateTotalValue();
+    _updateTotalValue();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); 
   }
 
@@ -41,7 +75,20 @@ class _BankSlipState extends State<BankSlipPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          if (_toDelete.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  bankSlips.removeWhere((bankslip) => _deleteItem(bankslip));
+                });
+                _updateTotalValue();
+              }, 
+              icon: const Icon(Icons.delete)
+            )
+        ],
+      ),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
         key: _key,
@@ -55,7 +102,7 @@ class _BankSlipState extends State<BankSlipPage> {
               setState(() {
                 bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
               });
-              updateTotalValue();
+              _updateTotalValue();
             },
             child: const Icon(Symbols.barcode_scanner)),
           FloatingActionButton.small(
@@ -67,7 +114,7 @@ class _BankSlipState extends State<BankSlipPage> {
               setState(() {
                 bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
               });
-              updateTotalValue();
+              _updateTotalValue();
             },
             child: const Icon(Symbols.barcode)),
           FloatingActionButton.small(
@@ -87,10 +134,15 @@ class _BankSlipState extends State<BankSlipPage> {
                   GestureDetector(
                     onTap: () {
                       if (_isLongPressed) return;
-                      _updateClipboard(bankSlip.barcode);
+                      if (_toDelete.isNotEmpty) {
+                        _setToDelete(bankSlip.barcode);
+                      } else {
+                        _updateClipboard(bankSlip.barcode);
+                      }
                     },
                     onLongPress: () {
                       _isLongPressed = true;
+                      _setToDelete(bankSlip.barcode);
                     },
                     onTapDown: (details) {
                       _isLongPressed = false;
@@ -100,9 +152,9 @@ class _BankSlipState extends State<BankSlipPage> {
                     },
                     child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                      color: _toDelete.contains(bankSlip.barcode) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
                       border: Border.all(
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color:  Theme.of(context).colorScheme.onSurface,
                         width: 1.0,
                         style: BorderStyle.solid
                       ),
@@ -148,6 +200,7 @@ class _BankSlipState extends State<BankSlipPage> {
             ]
           ),
         ),
+
         Positioned(
           left: 0,
           right: 0,
@@ -164,7 +217,7 @@ class _BankSlipState extends State<BankSlipPage> {
             ),
             child: Row(
               children: [
-                Text("Total: ", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)),
+                //Text("Total: ", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)),
                 Text("R\$ $totalValue", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer))
               ],
             ),
@@ -172,19 +225,5 @@ class _BankSlipState extends State<BankSlipPage> {
         )
       ])
     );
-  }
-
-  void updateTotalValue() {
-    double newTotal = 0.0;
-    for (final bankSlip in bankSlips) {
-      newTotal += bankSlip.value;
-    }
-    setState(() {
-      totalValue = newTotal;
-    });
-  }
-
-  Future<void> _updateClipboard(String value) async {
-    await Clipboard.setData(ClipboardData(text: value));
   }
 }
