@@ -7,9 +7,8 @@ class BankSlip {
   late DateTime date;
   late double value;
 
-  final _currencyFormat = NumberFormat.currency(
-    name: "pt_BR",
-    locale: "BRL",
+  static final _currencyFormat = NumberFormat.currency(
+    locale: "pt_BR",
     symbol: "R\$",
     decimalDigits: 2
   );
@@ -18,6 +17,10 @@ class BankSlip {
 
   String getCurrencyToString() {
     return _currencyFormat.format(value);
+  }
+
+  static String convertNumberToStringWithCurrency(double number) {
+    return _currencyFormat.format(number);
   }
 
   static BankSlip createBankSlipDataUsingBarcode(String barcode) {

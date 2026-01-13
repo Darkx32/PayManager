@@ -16,19 +16,19 @@ class BankSlipPage extends StatefulWidget {
 
 class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
-  List<BankSlip> bankSlips = [];
+  List<BankSlip> _bankSlips = [];
   final List<String> _toDelete = [];
   bool _isLongPressed = false;
 
-  double totalValue = 0.0;
+  double _totalValue = 0.0;
 
   void _updateTotalValue() {
     double newTotal = 0.0;
-    for (final bankSlip in bankSlips) {
+    for (final bankSlip in _bankSlips) {
       newTotal += bankSlip.value;
     }
     setState(() {
-      totalValue = newTotal;
+      _totalValue = newTotal;
     });
   }
 
@@ -59,7 +59,7 @@ class _BankSlipState extends State<BankSlipPage> {
   void initState() {
     super.initState();
     setState(() {
-      bankSlips.add(BankSlip.createBankSlipDataUsingBarcode("23792372059237481415767022195308213150000382633"));
+      _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode("23792372059237481415767022195308213150000382633"));
     });
     _updateTotalValue();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); 
@@ -81,7 +81,7 @@ class _BankSlipState extends State<BankSlipPage> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  bankSlips.removeWhere((bankslip) => _deleteItem(bankslip));
+                  _bankSlips.removeWhere((bankslip) => _deleteItem(bankslip));
                 });
                 _updateTotalValue();
               }, 
@@ -100,7 +100,7 @@ class _BankSlipState extends State<BankSlipPage> {
               if (barcode == null) return;
 
               setState(() {
-                bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+                _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
               });
               _updateTotalValue();
             },
@@ -112,7 +112,7 @@ class _BankSlipState extends State<BankSlipPage> {
               if (barcode == null) return;
 
               setState(() {
-                bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+                _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
               });
               _updateTotalValue();
             },
@@ -130,7 +130,7 @@ class _BankSlipState extends State<BankSlipPage> {
             padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
             child: Column(
               children: [
-                for(BankSlip bankSlip in bankSlips)
+                for(BankSlip bankSlip in _bankSlips)
                   GestureDetector(
                     onTap: () {
                       if (_isLongPressed) return;
@@ -217,8 +217,9 @@ class _BankSlipState extends State<BankSlipPage> {
             ),
             child: Row(
               children: [
-                //Text("Total: ", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)),
-                Text("R\$ $totalValue", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer))
+                Text(BankSlip.convertNumberToStringWithCurrency(_totalValue), style: 
+                  TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
+                )
               ],
             ),
           )
