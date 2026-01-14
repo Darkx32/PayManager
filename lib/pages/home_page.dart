@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
+import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/bankslip_save.dart';
 import 'package:pay_manager/pages/bankslip_page.dart';
 
@@ -71,14 +72,35 @@ class _HomePageState extends State<HomePage> {
                       ),
                       padding: EdgeInsets.all(10),
                     child: Column(
-                      spacing: 7,
+                      spacing: 0,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              style: const ButtonStyle(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                              ),
+                              onPressed: () {}, 
+                              icon: Icon(Icons.edit)
+                            ),
+                            Spacer(),
                             const Text("Date: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                            Text(DateFormat("dd/MM/yyyy").format(bankslipSave.date), style: TextStyle(fontWeight: FontWeight.bold))
+                            Text(DateFormat("dd/MM/yyyy").format(bankslipSave.date), style: TextStyle(fontWeight: FontWeight.bold)),
+                            Spacer(),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              style: const ButtonStyle(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                              ),
+                              onPressed: () {}, 
+                              icon: Icon(Icons.delete)
+                            ),
                           ]
+                        ),
+                        Center(
+                          child: Text(BankSlip.convertNumberToStringWithCurrency(bankslipSave.totalValue), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
+                            color: Colors.green[600])),
                         )
                       ],
                     ),

@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:pay_manager/l10n/app_localizations.dart";
-import "package:pay_manager/pages/bankslip_page.dart";
 import "package:pay_manager/pages/home_page.dart";
 import "package:pay_manager/preferences.dart";
 import "package:provider/provider.dart";
