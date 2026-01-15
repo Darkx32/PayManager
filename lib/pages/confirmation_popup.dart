@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_manager/l10n/app_localizations.dart';
 
 class ConfirmationPopup {
   static Future<bool?> show(BuildContext context) async {
@@ -6,15 +7,15 @@ class ConfirmationPopup {
       context: context, 
       builder: (context) {
         return AlertDialog(
-          title: const Text("Confirmation"),
-          content: const Text("Do you really wants to make that?"),
+          title: Text(AppLocalizations.of(context)!.confirmation_popup_title),
+          content: Text(AppLocalizations.of(context)!.confirmation_popup_description),
           actions: [
             TextButton(onPressed: () {
               Navigator.of(context).pop(true); 
-            }, child: const Text("Yes")),
+            }, child: Text(AppLocalizations.of(context)!.confirmation_popup_yes)),
             TextButton(onPressed: () {
               Navigator.of(context).pop(false); 
-            }, child: const Text("No")),
+            }, child: Text(AppLocalizations.of(context)!.confirmation_popup_no)),
           ],
         );
       },

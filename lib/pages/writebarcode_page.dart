@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:pay_manager/core/bankslip.dart';
+import 'package:pay_manager/l10n/app_localizations.dart';
 
 class WriteBarcode extends StatefulWidget {
   const WriteBarcode({super.key});
@@ -46,7 +47,7 @@ class _WriteBarcodeState extends State<WriteBarcode> {
                   validator: (value) {
                     if (value == null || value.isEmpty || value.length < 54) {
                       _allChecked = false;
-                      return "It's no a real bankslip";
+                      return AppLocalizations.of(context)!.writebarcode_page_not_real_bankslip;
                     } else {
                       _allChecked = true;
                       return null;
@@ -72,10 +73,10 @@ class _WriteBarcodeState extends State<WriteBarcode> {
                 child: 
                 Row(
                   children: [
-                    Text("Date: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("${AppLocalizations.of(context)!.date}: ", style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(_allChecked ? DateFormat("dd/MM/yyyy").format(bankSlip!.date) : "-"),
                     Spacer(),
-                    Text("Value: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("${AppLocalizations.of(context)!.value}: ", style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(_allChecked ? bankSlip!.getCurrencyToString() : "-")
                   ],
                 ),
@@ -94,7 +95,7 @@ class _WriteBarcodeState extends State<WriteBarcode> {
             child: 
               ElevatedButton(onPressed: _allChecked ? _buttonPress : null, 
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green[600], foregroundColor: Theme.of(context).colorScheme.onSurface), 
-                child: const Text("Confirm")),
+                child: Text(AppLocalizations.of(context)!.writebarcode_page_confirm)),
             )
           )
       ]) 

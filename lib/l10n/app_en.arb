@@ -1,5 +1,23 @@
 {
     "@@locale": "en",
-    "home_page_title": "Home",
-    "@home_page_title": {}
+    "date": "Date",
+    "@date": {},
+    "value": "Value",
+    "@value": {},
+    "bankslip_page_dont_added_any_bankslip": "You don't added any bankslip",
+    "@bankslip_page_dont_added_any_bankslip": {},
+    "bankslip_page_barcode": "Barcode",
+    "@bankslip_page_barcode": {},
+    "confirmation_popup_title": "Confirmation",
+    "@confirmation_popup_title": {},
+    "confirmation_popup_description": "Do you really wants to make that?",
+    "@confirmation_popup_description": {},
+    "confirmation_popup_yes": "Yes",
+    "@confirmation_popup_yes": {},
+    "confirmation_popup_no": "No",
+    "@confirmation_popup_no": {},
+    "writebarcode_page_not_real_bankslip": "It's no a real bankslip",
+    "@writebarcode_page_not_real_bankslip": {},
+    "writebarcode_page_confirm": "Confirm",
+    "@writebarcode_page_confirm": {}
 }

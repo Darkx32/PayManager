@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/bankslip_save.dart';
+import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/pages/scanner_page.dart';
 import 'package:pay_manager/pages/writebarcode_page.dart';
 
@@ -127,7 +128,7 @@ class _BankSlipState extends State<BankSlipPage> {
               if (_bankSlips.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text("You don't added any bankslip"),
+                    content: Text(AppLocalizations.of(context)!.bankslip_page_dont_added_any_bankslip),
                     duration: const Duration(seconds: 3),
                   )
                 );
@@ -189,7 +190,7 @@ class _BankSlipState extends State<BankSlipPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Barcode:", style: TextStyle(fontWeight: FontWeight.w900)),
+                            Text("${AppLocalizations.of(context)!.bankslip_page_barcode}:", style: TextStyle(fontWeight: FontWeight.w900)),
                             Text(bankSlip.barcode, softWrap: true, 
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           ],
@@ -199,7 +200,7 @@ class _BankSlipState extends State<BankSlipPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Date:", style: TextStyle(fontWeight: FontWeight.w800)),
+                                Text("${AppLocalizations.of(context)!.date}:", style: TextStyle(fontWeight: FontWeight.w800)),
                                 Text(DateFormat("dd/MM/yyyy").format(bankSlip.date), style: TextStyle(color: Colors.green[600]))
                               ],
                             ),
@@ -207,7 +208,7 @@ class _BankSlipState extends State<BankSlipPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Value:", style: TextStyle(fontWeight: FontWeight.w800)),
+                                Text("${AppLocalizations.of(context)!.value}:", style: TextStyle(fontWeight: FontWeight.w800)),
                                 Text(bankSlip.getCurrencyToString(), style: TextStyle(color: Colors.green[600]))
                               ],
                             ),

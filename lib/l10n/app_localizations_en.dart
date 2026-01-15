@@ -9,5 +9,34 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get home_page_title => 'Home';
+  String get date => 'Date';
+
+  @override
+  String get value => 'Value';
+
+  @override
+  String get bankslip_page_dont_added_any_bankslip =>
+      'You don\'t added any bankslip';
+
+  @override
+  String get bankslip_page_barcode => 'Barcode';
+
+  @override
+  String get confirmation_popup_title => 'Confirmation';
+
+  @override
+  String get confirmation_popup_description =>
+      'Do you really wants to make that?';
+
+  @override
+  String get confirmation_popup_yes => 'Yes';
+
+  @override
+  String get confirmation_popup_no => 'No';
+
+  @override
+  String get writebarcode_page_not_real_bankslip => 'It\'s no a real bankslip';
+
+  @override
+  String get writebarcode_page_confirm => 'Confirm';
 }

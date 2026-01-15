@@ -3,6 +3,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/bankslip_save.dart';
+import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/pages/bankslip_page.dart';
 import 'package:pay_manager/pages/confirmation_popup.dart';
 
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.edit)
                             ),
                             Spacer(),
-                            const Text("Date: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                            Text("${AppLocalizations.of(context)!.date}: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                             Text(DateFormat("dd/MM/yyyy").format(entries.value.date), style: TextStyle(fontWeight: FontWeight.bold)),
                             Spacer(),
                             IconButton(

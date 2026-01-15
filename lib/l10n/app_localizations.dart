@@ -98,11 +98,65 @@ abstract class AppLocalizations {
     Locale('pt'),
   ];
 
-  /// No description provided for @home_page_title.
+  /// No description provided for @date.
   ///
   /// In en, this message translates to:
-  /// **'Home'**
-  String get home_page_title;
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get value;
+
+  /// No description provided for @bankslip_page_dont_added_any_bankslip.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t added any bankslip'**
+  String get bankslip_page_dont_added_any_bankslip;
+
+  /// No description provided for @bankslip_page_barcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode'**
+  String get bankslip_page_barcode;
+
+  /// No description provided for @confirmation_popup_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation'**
+  String get confirmation_popup_title;
+
+  /// No description provided for @confirmation_popup_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really wants to make that?'**
+  String get confirmation_popup_description;
+
+  /// No description provided for @confirmation_popup_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get confirmation_popup_yes;
+
+  /// No description provided for @confirmation_popup_no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get confirmation_popup_no;
+
+  /// No description provided for @writebarcode_page_not_real_bankslip.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s no a real bankslip'**
+  String get writebarcode_page_not_real_bankslip;
+
+  /// No description provided for @writebarcode_page_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get writebarcode_page_confirm;
 }
 
 class _AppLocalizationsDelegate

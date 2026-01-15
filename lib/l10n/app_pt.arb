@@ -1,5 +1,23 @@
 {
     "@@locale": "pt",
-    "home_page_title": "Início",
-    "@home_page_title": {}
+    "date": "Data",
+    "@date": {},
+    "value": "Valor",
+    "@value": {},
+    "bankslip_page_dont_added_any_bankslip": "Você não adicionou nenhum boleto",
+    "@bankslip_page_dont_added_any_bankslip": {},
+    "bankslip_page_barcode": "Código de barras",
+    "@bankslip_page_barcode": {},
+    "confirmation_popup_title": "Confirmação",
+    "@confirmation_popup_title": {},
+    "confirmation_popup_description": "Você realmente deseja fazer isso?",
+    "@confirmation_popup_description": {},
+    "confirmation_popup_yes": "Sim",
+    "@confirmation_popup_yes": {},
+    "confirmation_popup_no": "Não",
+    "@confirmation_popup_no": {},
+    "writebarcode_page_not_real_bankslip": "Não é um boleto válido",
+    "@writebarcode_page_not_real_bankslip": {},
+    "writebarcode_page_confirm": "Confirmar",
+    "@writebarcode_page_confirm": {}
 }
