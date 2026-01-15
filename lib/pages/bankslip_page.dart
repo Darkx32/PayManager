@@ -9,7 +9,8 @@ import 'package:pay_manager/pages/scanner_page.dart';
 import 'package:pay_manager/pages/writebarcode_page.dart';
 
 class BankSlipPage extends StatefulWidget {
-  const BankSlipPage({super.key});
+  const BankSlipPage({super.key, this.toEdit = const []});
+  final List<String> toEdit;
 
   @override
   State<StatefulWidget> createState() => _BankSlipState();
@@ -59,9 +60,11 @@ class _BankSlipState extends State<BankSlipPage> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode("23792372059237481415767022195308213150000382633"));
-    });
+    if (widget.toEdit.isNotEmpty) {
+      for (var barcode in widget.toEdit) {
+        _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+      }
+    }
     _updateTotalValue();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); 
   }
