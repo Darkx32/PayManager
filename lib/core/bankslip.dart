@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class BankSlip {
@@ -24,16 +23,15 @@ class BankSlip {
     return _currencyFormat.format(number);
   }
 
-  static BankSlip createBankSlipDataUsingBarcode(String barcode) {
+  static BankSlip? createBankSlipDataUsingBarcode(String barcode) {
+    if (barcode.length != 44 && barcode.length != 47) return null;
+
     DateTime actualTimeDate = _dateTime;
     String actualBarcode = barcode;
 
-    if (barcode.length != 47) {
+    if (barcode.length == 44) {
       actualBarcode = _convertBarcodeToDigitableLine(barcode);
     }
-
-    debugPrint(actualBarcode);
-
     actualTimeDate = actualTimeDate.add(Duration(days: int.parse(actualBarcode.substring(33, 37))));
     final double value = double.parse(actualBarcode.substring(37, 47)) / 100;
     return BankSlip(actualBarcode, actualTimeDate, value);

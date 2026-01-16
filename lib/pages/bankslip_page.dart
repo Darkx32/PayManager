@@ -63,7 +63,13 @@ class _BankSlipState extends State<BankSlipPage> {
     super.initState();
     if (widget.toEdit.isNotEmpty) {
       for (var barcode in widget.toEdit) {
-        _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+        final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
+
+        if (bankSlip != null) {
+          setState(() {
+            _bankSlips.add(bankSlip);
+          });
+        }
       }
     }
     _updateTotalValue();
@@ -104,8 +110,11 @@ class _BankSlipState extends State<BankSlipPage> {
               final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const ScannerPage()));
               if (barcode == null) return;
 
+              final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
+
+              if (bankSlip == null) return;
               setState(() {
-                _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+                _bankSlips.add(bankSlip);
               });
               _updateTotalValue();
             },
@@ -116,8 +125,11 @@ class _BankSlipState extends State<BankSlipPage> {
               final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const WriteBarcode()));
               if (barcode == null) return;
 
+              final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
+
+              if (bankSlip == null) return;
               setState(() {
-                _bankSlips.add(BankSlip.createBankSlipDataUsingBarcode(barcode));
+                _bankSlips.add(bankSlip);
               });
               _updateTotalValue();
             },
