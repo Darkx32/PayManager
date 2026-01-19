@@ -15,6 +15,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get value => 'Valor';
 
   @override
+  String get confirm => 'Confirmar';
+
+  @override
   String get bankslip_page_dont_added_any_bankslip =>
       'Você não adicionou nenhum boleto';
 
@@ -38,5 +41,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get writebarcode_page_not_real_bankslip => 'Não é um boleto válido';
 
   @override
-  String get writebarcode_page_confirm => 'Confirmar';
+  String get scanner_page_barcode_detect => 'Código de barras foi detectado!';
+
+  @override
+  String get scanner_page_cancel => 'Cancelar';
 }

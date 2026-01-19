@@ -15,6 +15,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get value => 'Value';
 
   @override
+  String get confirm => 'Confirm';
+
+  @override
   String get bankslip_page_dont_added_any_bankslip =>
       'You don\'t added any bankslip';
 
@@ -38,5 +41,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get writebarcode_page_not_real_bankslip => 'It\'s no a real bankslip';
 
   @override
-  String get writebarcode_page_confirm => 'Confirm';
+  String get scanner_page_barcode_detect => 'Barcode detect successfuly!';
+
+  @override
+  String get scanner_page_cancel => 'Cancel';
 }

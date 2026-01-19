@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/string_plus.dart';
+import 'package:pay_manager/l10n/app_localizations.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -35,7 +36,7 @@ class _ScannerPageState extends State<ScannerPage> {
               child: Column(
                 spacing: 7,
                 children: [
-                  Text("Barcode detect successfuly!", style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text(AppLocalizations.of(context)!.scanner_page_barcode_detect, style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold)),
                   TextField(
                     style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
@@ -63,7 +64,7 @@ class _ScannerPageState extends State<ScannerPage> {
                       Navigator.of(context)
                         ..pop()
                         ..pop(barcode);
-                    }, child: Text("Confirm", style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold)))
+                    }, child: Text(AppLocalizations.of(context)!.confirm, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold)))
                 ],
               ),
             )
@@ -149,7 +150,7 @@ class _ScannerPageState extends State<ScannerPage> {
                     color: Colors.white
                   )
                 ),
-                child: Text("Cancel", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22))
+                child: Text(AppLocalizations.of(context)!.scanner_page_cancel, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22))
               ),
             )
           )

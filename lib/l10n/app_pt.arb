@@ -4,6 +4,8 @@
     "@date": {},
     "value": "Valor",
     "@value": {},
+    "confirm": "Confirmar",
+    "@confirm": {},
     "bankslip_page_dont_added_any_bankslip": "Você não adicionou nenhum boleto",
     "@bankslip_page_dont_added_any_bankslip": {},
     "bankslip_page_barcode": "Código de barras",
@@ -18,6 +20,8 @@
     "@confirmation_popup_no": {},
     "writebarcode_page_not_real_bankslip": "Não é um boleto válido",
     "@writebarcode_page_not_real_bankslip": {},
-    "writebarcode_page_confirm": "Confirmar",
-    "@writebarcode_page_confirm": {}
+    "scanner_page_barcode_detect": "Código de barras foi detectado!",
+    "@scanner_page_barcode_detect": {},
+    "scanner_page_cancel": "Cancelar",
+    "@scanner_page_cancel": {}
 }

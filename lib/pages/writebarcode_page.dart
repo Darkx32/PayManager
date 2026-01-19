@@ -95,7 +95,7 @@ class _WriteBarcodeState extends State<WriteBarcode> {
             child: 
               ElevatedButton(onPressed: _allChecked ? _buttonPress : null, 
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green[600], foregroundColor: Theme.of(context).colorScheme.onSurface), 
-                child: Text(AppLocalizations.of(context)!.writebarcode_page_confirm)),
+                child: Text(AppLocalizations.of(context)!.confirm)),
             )
           )
       ]) 

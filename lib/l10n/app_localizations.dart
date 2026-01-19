@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Value'**
   String get value;
 
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
   /// No description provided for @bankslip_page_dont_added_any_bankslip.
   ///
   /// In en, this message translates to:
@@ -152,11 +158,17 @@ abstract class AppLocalizations {
   /// **'It\'s no a real bankslip'**
   String get writebarcode_page_not_real_bankslip;
 
-  /// No description provided for @writebarcode_page_confirm.
+  /// No description provided for @scanner_page_barcode_detect.
   ///
   /// In en, this message translates to:
-  /// **'Confirm'**
-  String get writebarcode_page_confirm;
+  /// **'Barcode detect successfuly!'**
+  String get scanner_page_barcode_detect;
+
+  /// No description provided for @scanner_page_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get scanner_page_cancel;
 }
 
 class _AppLocalizationsDelegate
