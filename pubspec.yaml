@@ -51,3 +51,11 @@ flutter:
           weight: 800
         - asset: assets/fonts/Poppins/Poppins-Black.ttf
           weight: 900
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/ic_launcher.png"
+  adaptive_icon_background: "#00000000"
+  adaptive_icon_foreground: "assets/icons/ic_launcher.png"
+  remove_alpha_ios: true

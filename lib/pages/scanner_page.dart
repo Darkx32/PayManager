@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/string_plus.dart';
@@ -14,6 +15,8 @@ class ScannerPage extends StatefulWidget {
 
 class _ScannerPageState extends State<ScannerPage> {
   bool isPopped = false;
+  MobileScannerController controller = MobileScannerController();
+  bool flashlightEnabled = false;
 
   Future<void> _showModalBottomSheet(BuildContext context, String barcode) async {
     final BankSlip? digitableCode = BankSlip.createBankSlipDataUsingBarcode(barcode);
@@ -111,6 +114,7 @@ class _ScannerPageState extends State<ScannerPage> {
       body: Stack(
         children: [
           MobileScanner(
+            controller: controller,
             scanWindow: null,
             onDetect: (capture) async {
               if (isPopped || !mounted) return;
@@ -153,7 +157,26 @@ class _ScannerPageState extends State<ScannerPage> {
                 child: Text(AppLocalizations.of(context)!.scanner_page_cancel, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22))
               ),
             )
-          )
+          ),
+
+          Positioned(
+            bottom: 250,
+            right: 85,
+            child: Container(
+              decoration: BoxDecoration(
+                border: BoxBorder.all(
+                  color: Colors.white,
+                  width: 2.0
+                ),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: IconButton(onPressed: () async {
+                await controller.toggleTorch();
+                setState(() {
+                  flashlightEnabled = !flashlightEnabled;
+                });
+            }, icon: Icon(flashlightEnabled ? Symbols.flashlight_on : Symbols.flashlight_off))
+          )),
         ],
       )
     );
