@@ -15,7 +15,7 @@ class ScannerPage extends StatefulWidget {
 
 class _ScannerPageState extends State<ScannerPage> {
   bool isPopped = false;
-  MobileScannerController controller = MobileScannerController();
+  late MobileScannerController _controller;
   bool flashlightEnabled = false;
 
   Future<void> _showModalBottomSheet(BuildContext context, String barcode) async {
@@ -88,15 +88,16 @@ class _ScannerPageState extends State<ScannerPage> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
+
+    _controller = MobileScannerController();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
+    super.dispose();
   }
 
   @override
@@ -114,7 +115,7 @@ class _ScannerPageState extends State<ScannerPage> {
       body: Stack(
         children: [
           MobileScanner(
-            controller: controller,
+            controller: _controller,
             scanWindow: null,
             onDetect: (capture) async {
               if (isPopped || !mounted) return;
@@ -171,7 +172,7 @@ class _ScannerPageState extends State<ScannerPage> {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: IconButton(onPressed: () async {
-                await controller.toggleTorch();
+                await _controller.toggleTorch();
                 setState(() {
                   flashlightEnabled = !flashlightEnabled;
                 });

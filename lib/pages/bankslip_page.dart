@@ -6,6 +6,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/bankslip_save.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
+import 'package:pay_manager/pages/confirmation_popup.dart';
 import 'package:pay_manager/pages/scanner_page.dart';
 import 'package:pay_manager/pages/writebarcode_page.dart';
 
@@ -85,179 +86,195 @@ class _BankSlipState extends State<BankSlipPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          if (_toDelete.isNotEmpty)
-            IconButton(
-              onPressed: () {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (_bankSlips.isNotEmpty) {
+          bool? canClose = await ConfirmationPopup.show(context);
+          if (canClose == null || !context.mounted) return;
+
+          if (canClose) {
+            Navigator.pop(context);
+          }
+        } else {
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            if (_toDelete.isNotEmpty)
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _bankSlips.removeWhere((bankslip) => _deleteItem(bankslip));
+                  });
+                  _updateTotalValue();
+                }, 
+                icon: const Icon(Icons.delete)
+              )
+          ],
+        ),
+        floatingActionButtonLocation: ExpandableFab.location,
+        floatingActionButton: ExpandableFab(
+          key: _key,
+          children: [
+            FloatingActionButton.small(
+              heroTag: null,
+              onPressed: () async {
+                final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const ScannerPage()));
+                if (barcode == null) return;
+
+                final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
+
+                if (bankSlip == null) return;
                 setState(() {
-                  _bankSlips.removeWhere((bankslip) => _deleteItem(bankslip));
+                  _bankSlips.add(bankSlip);
                 });
                 _updateTotalValue();
-              }, 
-              icon: const Icon(Icons.delete)
-            )
-        ],
-      ),
-      floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: ExpandableFab(
-        key: _key,
-        children: [
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () async {
-              final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const ScannerPage()));
-              if (barcode == null) return;
+              },
+              child: const Icon(Symbols.barcode_scanner)),
+            FloatingActionButton.small(
+              heroTag: null,
+              onPressed: () async {
+                final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const WriteBarcode()));
+                if (barcode == null) return;
 
-              final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
+                final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
 
-              if (bankSlip == null) return;
-              setState(() {
-                _bankSlips.add(bankSlip);
-              });
-              _updateTotalValue();
-            },
-            child: const Icon(Symbols.barcode_scanner)),
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () async {
-              final barcode = await Navigator.push(context, MaterialPageRoute<String>(builder: (context) => const WriteBarcode()));
-              if (barcode == null) return;
-
-              final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
-
-              if (bankSlip == null) return;
-              setState(() {
-                _bankSlips.add(bankSlip);
-              });
-              _updateTotalValue();
-            },
-            child: const Icon(Symbols.barcode)),
-          FloatingActionButton.small(
-            heroTag: null,
-            onPressed: () {
-              if (_bankSlips.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppLocalizations.of(context)!.bankslip_page_dont_added_any_bankslip),
-                    duration: const Duration(seconds: 3),
-                  )
-                );
-              } else {
-                List<String> allBarcodes = [];
-                for(final bankslip in _bankSlips) {
-                  allBarcodes.add(bankslip.barcode);
+                if (bankSlip == null) return;
+                setState(() {
+                  _bankSlips.add(bankSlip);
+                });
+                _updateTotalValue();
+              },
+              child: const Icon(Symbols.barcode)),
+            FloatingActionButton.small(
+              heroTag: null,
+              onPressed: () {
+                if (_bankSlips.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context)!.bankslip_page_dont_added_any_bankslip),
+                      duration: const Duration(seconds: 3),
+                    )
+                  );
+                } else {
+                  List<String> allBarcodes = [];
+                  for(final bankslip in _bankSlips) {
+                    allBarcodes.add(bankslip.barcode);
+                  }
+                  BankslipSave bankslipSave = BankslipSave(barcodes: allBarcodes, date: DateTime.now(), totalValue: _totalValue);
+                  Navigator.pop(context, bankslipSave);
                 }
-                BankslipSave bankslipSave = BankslipSave(barcodes: allBarcodes, date: DateTime.now(), totalValue: _totalValue);
-                Navigator.pop(context, bankslipSave);
-              }
-            },
-            child: const Icon(Icons.done),)
-        ],
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-        SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
-            child: Column(
-              children: [
-                for(BankSlip bankSlip in _bankSlips)
-                  GestureDetector(
-                    onTap: () {
-                      if (_isLongPressed) return;
-                      if (_toDelete.isNotEmpty) {
+              },
+              child: const Icon(Icons.done),)
+          ],
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+          SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
+              child: Column(
+                children: [
+                  for(BankSlip bankSlip in _bankSlips)
+                    GestureDetector(
+                      onTap: () {
+                        if (_isLongPressed) return;
+                        if (_toDelete.isNotEmpty) {
+                          _setToDelete(bankSlip.barcode);
+                        } else {
+                          _updateClipboard(bankSlip.barcode);
+                        }
+                      },
+                      onLongPress: () {
+                        _isLongPressed = true;
                         _setToDelete(bankSlip.barcode);
-                      } else {
-                        _updateClipboard(bankSlip.barcode);
-                      }
-                    },
-                    onLongPress: () {
-                      _isLongPressed = true;
-                      _setToDelete(bankSlip.barcode);
-                    },
-                    onTapDown: (details) {
-                      _isLongPressed = false;
-                    },
-                    onTapCancel: () {
-                      _isLongPressed = true;
-                    },
-                    child: Container(
-                    decoration: BoxDecoration(
-                      color: _toDelete.contains(bankSlip.barcode) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
-                      border: Border.all(
-                        color:  Theme.of(context).colorScheme.onSurface,
-                        width: 1.0,
-                        style: BorderStyle.solid
+                      },
+                      onTapDown: (details) {
+                        _isLongPressed = false;
+                      },
+                      onTapCancel: () {
+                        _isLongPressed = true;
+                      },
+                      child: Container(
+                      decoration: BoxDecoration(
+                        color: _toDelete.contains(bankSlip.barcode) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
+                        border: Border.all(
+                          color:  Theme.of(context).colorScheme.onSurface,
+                          width: 1.0,
+                          style: BorderStyle.solid
+                        ),
+                        borderRadius: BorderRadius.circular(10)
                       ),
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      spacing: 7,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("${AppLocalizations.of(context)!.bankslip_page_barcode}:", style: TextStyle(fontWeight: FontWeight.w900)),
-                            Text(bankSlip.barcode, softWrap: true, 
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${AppLocalizations.of(context)!.date}:", style: TextStyle(fontWeight: FontWeight.w800)),
-                                Text(DateFormat("dd/MM/yyyy").format(bankSlip.date), style: TextStyle(color: Colors.green[600]))
-                              ],
-                            ),
-                            Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${AppLocalizations.of(context)!.value}:", style: TextStyle(fontWeight: FontWeight.w800)),
-                                Text(bankSlip.getCurrencyToString(), style: TextStyle(color: Colors.green[600]))
-                              ],
-                            ),
-                          ]
-                        ),
-                      ],
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        spacing: 7,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${AppLocalizations.of(context)!.bankslip_page_barcode}:", style: TextStyle(fontWeight: FontWeight.w900)),
+                              Text(bankSlip.barcode, softWrap: true, 
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${AppLocalizations.of(context)!.date}:", style: TextStyle(fontWeight: FontWeight.w800)),
+                                  Text(DateFormat("dd/MM/yyyy").format(bankSlip.date), style: TextStyle(color: Colors.green[600]))
+                                ],
+                              ),
+                              Spacer(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${AppLocalizations.of(context)!.value}:", style: TextStyle(fontWeight: FontWeight.w800)),
+                                  Text(bankSlip.getCurrencyToString(), style: TextStyle(color: Colors.green[600]))
+                                ],
+                              ),
+                            ]
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-            ]
+              ]
+            ),
           ),
-        ),
 
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: 80,
-          child: Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              border: Border.all(
-                color: Colors.transparent
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 80,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                border: Border.all(
+                  color: Colors.transparent
+                ),
+                borderRadius: BorderRadius.circular(15)
               ),
-              borderRadius: BorderRadius.circular(15)
-            ),
-            child: Row(
-              children: [
-                Text(BankSlip.convertNumberToStringWithCurrency(_totalValue), style: 
-                  TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
-                )
-              ],
-            ),
+              child: Row(
+                children: [
+                  Text(BankSlip.convertNumberToStringWithCurrency(_totalValue), style: 
+                    TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
+                  )
+                ],
+              ),
+            )
           )
-        )
-      ])
+        ])
+      )
     );
+    
   }
 }

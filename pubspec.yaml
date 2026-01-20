@@ -19,7 +19,7 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   material_symbols_icons: ^4.2892.0
   flutter_expandable_fab: ^2.5.2
-  mobile_scanner: ^7.1.4
+  mobile_scanner: 7.1.2
   mask_text_input_formatter: ^2.9.0
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.1
