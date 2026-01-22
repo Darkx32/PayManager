@@ -5,6 +5,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/string_plus.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
+import 'package:vibration/vibration.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -128,7 +129,12 @@ class _ScannerPageState extends State<ScannerPage> {
                       isPopped = true;
                     });
 
-                    await _showModalBottomSheet(context, displayValue);
+                    if (await Vibration.hasVibrator()) {
+                      Vibration.vibrate();
+                    }
+                    if (context.mounted) {
+                      await _showModalBottomSheet(context, displayValue);
+                    }
                   }
                 }
               }

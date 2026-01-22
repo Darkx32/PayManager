@@ -23,6 +23,7 @@ dependencies:
   mask_text_input_formatter: ^2.9.0
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.1
+  vibration: ^3.1.3
 
 dev_dependencies:
   flutter_test:
