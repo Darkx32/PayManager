@@ -39,6 +39,8 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    final bankSlips = _allBankslipsBox.toMap().entries.toList();
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(top: 50),
           child: Column(
             children: [
-              for (var entries in _allBankslipsBox.toMap().entries)
+              for (int i = bankSlips.length - 1; i >= 0;i--)
                 GestureDetector(
                   child: 
                   Container(
@@ -72,6 +74,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(10)
                       ),
                       padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(bottom: 10),
                     child: Column(
                       spacing: 0,
                       children: [
@@ -84,19 +87,19 @@ class _HomePageState extends State<HomePage> {
                               ),
                               onPressed: () async {
                                 final bankslipSave = await Navigator.push(context, MaterialPageRoute<BankslipSave>(
-                                  builder: (context) => BankSlipPage(toEdit: entries.value.barcodes)
+                                  builder: (context) => BankSlipPage(toEdit: bankSlips[i].value.barcodes)
                                 ));
                                 if (bankslipSave == null) return;
 
                                 setState(() {
-                                  _allBankslipsBox.put(entries.key, bankslipSave);
+                                  _allBankslipsBox.put(bankSlips[i].key, bankslipSave);
                                 });
                               }, 
                               icon: Icon(Icons.edit)
                             ),
                             Spacer(),
                             Text("${AppLocalizations.of(context)!.date}: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                            Text(DateFormat("dd/MM/yyyy").format(entries.value.date), style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(DateFormat("dd/MM/yyyy").format(bankSlips[i].value.date), style: TextStyle(fontWeight: FontWeight.bold)),
                             Spacer(),
                             IconButton(
                               padding: EdgeInsets.zero,
@@ -109,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 
                                 if (userChoose) {
                                   setState(() {
-                                    _allBankslipsBox.delete(entries.key);
+                                    _allBankslipsBox.delete(bankSlips[i].key);
                                   });
                                 }
                               }, 
@@ -118,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                           ]
                         ),
                         Center(
-                          child: Text(BankSlip.convertNumberToStringWithCurrency(entries.value.totalValue), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
+                          child: Text(BankSlip.convertNumberToStringWithCurrency(bankSlips[i].value.totalValue), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
                             color: Colors.green[600])),
                         )
                       ],
