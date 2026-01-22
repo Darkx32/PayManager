@@ -10,6 +10,8 @@
     "@bankslip_page_dont_added_any_bankslip": {},
     "bankslip_page_barcode": "Barcode",
     "@bankslip_page_barcode": {},
+    "bankslip_page_Amount": "Amount",
+    "@bankslip_page_Amount": {},
     "confirmation_popup_title": "Confirmation",
     "@confirmation_popup_title": {},
     "confirmation_popup_description": "Do you really wants to make that?",

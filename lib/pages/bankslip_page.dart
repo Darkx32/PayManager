@@ -253,23 +253,27 @@ class _BankSlipState extends State<BankSlipPage> {
             left: 0,
             right: 0,
             bottom: 0,
-            height: 80,
+            height: 90,
             child: Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer.withAlpha(180),
                 border: Border.all(
                   color: Colors.transparent
                 ),
                 borderRadius: BorderRadius.circular(15)
               ),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(BankSlip.convertNumberToStringWithCurrency(_totalValue), style: 
                     TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
+                  ),
+                  Text("${AppLocalizations.of(context)!.bankslip_page_Amount}: ${_bankSlips.length}", style: 
+                    TextStyle(fontWeight: FontWeight.w800, fontSize: 10, color: Theme.of(context).colorScheme.onPrimaryContainer)
                   )
                 ],
-              ),
+              )
             )
           )
         ])

@@ -12,6 +12,8 @@
     "@bankslip_page_barcode": {},
     "confirmation_popup_title": "Confirmação",
     "@confirmation_popup_title": {},
+    "bankslip_page_Amount": "Quantidade",
+    "@bankslip_page_Amount": {},
     "confirmation_popup_description": "Você realmente deseja fazer isso?",
     "@confirmation_popup_description": {},
     "confirmation_popup_yes": "Sim",

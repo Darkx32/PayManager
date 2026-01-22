@@ -128,6 +128,12 @@ abstract class AppLocalizations {
   /// **'Barcode'**
   String get bankslip_page_barcode;
 
+  /// No description provided for @bankslip_page_Amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get bankslip_page_Amount;
+
   /// No description provided for @confirmation_popup_title.
   ///
   /// In en, this message translates to:

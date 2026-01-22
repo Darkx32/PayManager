@@ -25,6 +25,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bankslip_page_barcode => 'Código de barras';
 
   @override
+  String get bankslip_page_Amount => 'Quantidade';
+
+  @override
   String get confirmation_popup_title => 'Confirmação';
 
   @override

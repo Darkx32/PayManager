@@ -25,6 +25,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankslip_page_barcode => 'Barcode';
 
   @override
+  String get bankslip_page_Amount => 'Amount';
+
+  @override
   String get confirmation_popup_title => 'Confirmation';
 
   @override
