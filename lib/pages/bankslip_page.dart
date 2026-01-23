@@ -21,36 +21,40 @@ class BankSlipPage extends StatefulWidget {
 class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
   final List<BankSlip> _bankSlips = [];
-  final List<String> _toDelete = [];
+  final List<String> _selected = [];
   bool _isLongPressed = false;
+  TextDecoration _decorationForNotSum = TextDecoration.lineThrough;
+  int _lengthForNotSum = 0;
 
   double _totalValue = 0.0;
 
   void _updateTotalValue() {
     double newTotal = 0.0;
     for (final bankSlip in _bankSlips) {
-      newTotal += bankSlip.value;
+      if (!bankSlip.isNotToSum) {
+        newTotal += bankSlip.value;
+      }
     }
     setState(() {
       _totalValue = newTotal;
     });
   }
 
-  void _setToDelete(String barcode) {
+  void _setToSelected(String barcode) {
     setState(() {
-      if (_toDelete.contains(barcode)) {
-        _toDelete.remove(barcode);
+      if (_selected.contains(barcode)) {
+        _selected.remove(barcode);
       } else {
-        _toDelete.add(barcode);
+        _selected.add(barcode);
       }
     });
   }
 
   bool _deleteItem(BankSlip bankSlip) {
     final barcode = bankSlip.barcode;
-    final hasInList = _toDelete.contains(barcode);
+    final hasInList = _selected.contains(barcode);
 
-    _toDelete.remove(barcode);
+    _selected.remove(barcode);
 
     return hasInList;
   }
@@ -103,7 +107,27 @@ class _BankSlipState extends State<BankSlipPage> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            if (_toDelete.isNotEmpty)
+            if (_selected.isNotEmpty)
+              IconButton(
+                onPressed: () {
+                  _lengthForNotSum = 0;
+                  for (var bankslip in _bankSlips) {
+                    if (_selected.contains(bankslip.barcode)) {
+                      setState(() {
+                        bankslip.isNotToSum = !bankslip.isNotToSum;
+                        _lengthForNotSum += bankslip.isNotToSum ? 1 : 0;
+                      });
+                    }
+                  }
+                  setState(() {
+                    _selected.clear();
+                    _isLongPressed = false;
+                  });
+                  _updateTotalValue();
+                },
+                icon: Icon(Symbols.select),
+              ),
+            if (_selected.isNotEmpty)
               IconButton(
                 onPressed: () {
                   setState(() {
@@ -182,15 +206,15 @@ class _BankSlipState extends State<BankSlipPage> {
                     GestureDetector(
                       onTap: () {
                         if (_isLongPressed) return;
-                        if (_toDelete.isNotEmpty) {
-                          _setToDelete(bankSlip.barcode);
+                        if (_selected.isNotEmpty) {
+                          _setToSelected(bankSlip.barcode);
                         } else {
                           _updateClipboard(bankSlip.barcode);
                         }
                       },
                       onLongPress: () {
                         _isLongPressed = true;
-                        _setToDelete(bankSlip.barcode);
+                        _setToSelected(bankSlip.barcode);
                       },
                       onTapDown: (details) {
                         _isLongPressed = false;
@@ -200,7 +224,7 @@ class _BankSlipState extends State<BankSlipPage> {
                       },
                       child: Container(
                       decoration: BoxDecoration(
-                        color: _toDelete.contains(bankSlip.barcode) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
+                        color: _selected.contains(bankSlip.barcode) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
                         border: Border.all(
                           color:  Theme.of(context).colorScheme.onSurface,
                           width: 1.0,
@@ -217,9 +241,11 @@ class _BankSlipState extends State<BankSlipPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("${AppLocalizations.of(context)!.bankslip_page_barcode}:", style: TextStyle(fontWeight: FontWeight.w900)),
+                              Text("${AppLocalizations.of(context)!.bankslip_page_barcode}:", style: TextStyle(
+                                fontWeight: FontWeight.w900, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
+                              )),
                               Text(bankSlip.barcode, softWrap: true, 
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                style: TextStyle(fontWeight: FontWeight.bold, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none)),
                             ],
                           ),
                           Row(
@@ -227,16 +253,24 @@ class _BankSlipState extends State<BankSlipPage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("${AppLocalizations.of(context)!.date}:", style: TextStyle(fontWeight: FontWeight.w800)),
-                                  Text(DateFormat("dd/MM/yyyy").format(bankSlip.date), style: TextStyle(color: Colors.green[600]))
+                                  Text("${AppLocalizations.of(context)!.date}:", style: TextStyle(
+                                    fontWeight: FontWeight.w800, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
+                                  )),
+                                  Text(DateFormat("dd/MM/yyyy").format(bankSlip.date), style: TextStyle(
+                                    color: Colors.green[600], decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
+                                  ))
                                 ],
                               ),
                               Spacer(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("${AppLocalizations.of(context)!.value}:", style: TextStyle(fontWeight: FontWeight.w800)),
-                                  Text(bankSlip.getCurrencyToString(), style: TextStyle(color: Colors.green[600]))
+                                  Text("${AppLocalizations.of(context)!.value}:", style: TextStyle(
+                                    fontWeight: FontWeight.w800, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
+                                  )),
+                                  Text(bankSlip.getCurrencyToString(), style: TextStyle(
+                                    color: Colors.green[600], decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
+                                    ))
                                 ],
                               ),
                             ]
@@ -269,7 +303,7 @@ class _BankSlipState extends State<BankSlipPage> {
                   Text(BankSlip.convertNumberToStringWithCurrency(_totalValue), style: 
                     TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
                   ),
-                  Text("${AppLocalizations.of(context)!.bankslip_page_Amount}: ${_bankSlips.length}", style: 
+                  Text("${AppLocalizations.of(context)!.bankslip_page_Amount}: ${_bankSlips.length - _lengthForNotSum}", style: 
                     TextStyle(fontWeight: FontWeight.w800, fontSize: 10, color: Theme.of(context).colorScheme.onPrimaryContainer)
                   )
                 ],
@@ -279,6 +313,5 @@ class _BankSlipState extends State<BankSlipPage> {
         ])
       )
     );
-    
   }
 }

@@ -6,6 +6,7 @@ class BankSlip {
   late String barcode;
   late DateTime date;
   late double value;
+  bool isNotToSum = false;
 
   static final _currencyFormat = NumberFormat.currency(
     locale: "pt_BR",
