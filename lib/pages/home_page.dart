@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:pay_manager/core/bankslip.dart';
@@ -57,11 +58,15 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         padding: EdgeInsets.all(12),
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.only(top: 50, bottom: 80),
           child: Column(
             children: [
               for (int i = bankSlips.length - 1; i >= 0;i--)
                 GestureDetector(
+                  onLongPress: () async {
+                    await Clipboard.setData(ClipboardData(
+                      text: BankSlip.convertNumberToStringWithCurrency(bankSlips[i].value.totalValue).substring(3)));
+                  },
                   child: 
                   Container(
                     decoration: BoxDecoration(

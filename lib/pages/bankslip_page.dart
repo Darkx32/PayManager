@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
@@ -21,9 +22,10 @@ class BankSlipPage extends StatefulWidget {
 class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
   final List<BankSlip> _bankSlips = [];
+  final List<BankSlip> _toEditCoppied = [];
   final List<String> _selected = [];
   bool _isLongPressed = false;
-  TextDecoration _decorationForNotSum = TextDecoration.lineThrough;
+  final TextDecoration _decorationForNotSum = TextDecoration.lineThrough;
   int _lengthForNotSum = 0;
 
   double _totalValue = 0.0;
@@ -67,15 +69,18 @@ class _BankSlipState extends State<BankSlipPage> {
   void initState() {
     super.initState();
     if (widget.toEdit.isNotEmpty) {
+      var finalList = List<BankSlip>.empty(growable: true);
       for (var barcode in widget.toEdit) {
         final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
 
         if (bankSlip != null) {
-          setState(() {
-            _bankSlips.add(bankSlip);
-          });
+          finalList.add(bankSlip);
         }
       }
+      setState(() {
+        _bankSlips.addAll(finalList);
+        _toEditCoppied.addAll(finalList);
+      });
     }
     _updateTotalValue();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); 
@@ -93,7 +98,7 @@ class _BankSlipState extends State<BankSlipPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        if (_bankSlips.isNotEmpty) {
+        if (!listEquals(_bankSlips, _toEditCoppied)) {
           bool? canClose = await ConfirmationPopup.show(context);
           if (canClose == null || !context.mounted) return;
 
@@ -199,7 +204,7 @@ class _BankSlipState extends State<BankSlipPage> {
           fit: StackFit.expand,
           children: [
           SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 65), 
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 95), 
               child: Column(
                 children: [
                   for(BankSlip bankSlip in _bankSlips)
