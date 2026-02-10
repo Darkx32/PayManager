@@ -7,6 +7,7 @@ class BankSlip {
   late DateTime date;
   late double value;
   bool isNotToSum = false;
+  bool selectedToDelete = false;
 
   static final _currencyFormat = NumberFormat.currency(
     locale: "pt_BR",

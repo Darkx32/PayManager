@@ -42,25 +42,6 @@ class _BankSlipState extends State<BankSlipPage> {
     });
   }
 
-  void _setToSelected(String barcode) {
-    setState(() {
-      if (_selected.contains(barcode)) {
-        _selected.remove(barcode);
-      } else {
-        _selected.add(barcode);
-      }
-    });
-  }
-
-  bool _deleteItem(BankSlip bankSlip) {
-    final barcode = bankSlip.barcode;
-    final hasInList = _selected.contains(barcode);
-
-    _selected.remove(barcode);
-
-    return hasInList;
-  }
-
   Future<void> _updateClipboard(String value) async {
     await Clipboard.setData(ClipboardData(text: value));
   }
@@ -132,11 +113,11 @@ class _BankSlipState extends State<BankSlipPage> {
                 },
                 icon: Icon(Symbols.select),
               ),
-            if (_selected.isNotEmpty)
+            if (_bankSlips.any((bankSlip) => bankSlip.selectedToDelete == true))
               IconButton(
                 onPressed: () {
                   setState(() {
-                    _bankSlips.removeWhere((bankslip) => _deleteItem(bankslip));
+                    _bankSlips.removeWhere((bankslip) => bankslip.selectedToDelete);
                   });
                   _updateTotalValue();
                 }, 
@@ -197,7 +178,7 @@ class _BankSlipState extends State<BankSlipPage> {
                   Navigator.pop(context, bankslipSave);
                 }
               },
-              child: const Icon(Icons.done),)
+              child: const Icon(Icons.done))
           ],
         ),
         body: Stack(
@@ -211,15 +192,19 @@ class _BankSlipState extends State<BankSlipPage> {
                     GestureDetector(
                       onTap: () {
                         if (_isLongPressed) return;
-                        if (_selected.isNotEmpty) {
-                          _setToSelected(bankSlip.barcode);
+                        if (_bankSlips.any((bankSlip) => bankSlip.selectedToDelete == true)) {
+                          setState(() {
+                            bankSlip.selectedToDelete = !bankSlip.selectedToDelete;
+                          });
                         } else {
                           _updateClipboard(bankSlip.barcode);
                         }
                       },
                       onLongPress: () {
                         _isLongPressed = true;
-                        _setToSelected(bankSlip.barcode);
+                        setState(() {
+                            bankSlip.selectedToDelete = !bankSlip.selectedToDelete;
+                          });
                       },
                       onTapDown: (details) {
                         _isLongPressed = false;
@@ -229,7 +214,7 @@ class _BankSlipState extends State<BankSlipPage> {
                       },
                       child: Container(
                       decoration: BoxDecoration(
-                        color: _selected.contains(bankSlip.barcode) ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
+                        color: bankSlip.selectedToDelete ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
                         border: Border.all(
                           color:  Theme.of(context).colorScheme.onSurface,
                           width: 1.0,
