@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pay_manager/core/bankslip.dart';
 import 'package:pay_manager/core/bankslip_save.dart';
+import 'package:pay_manager/helpers/bank_slip_card.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/pages/confirmation_popup.dart';
 import 'package:pay_manager/pages/scanner_page.dart';
@@ -23,9 +23,7 @@ class _BankSlipState extends State<BankSlipPage> {
   final _key = GlobalKey<ExpandableFabState>();
   final List<BankSlip> _bankSlips = [];
   final List<BankSlip> _toEditCoppied = [];
-  final List<String> _selected = [];
   bool _isLongPressed = false;
-  final TextDecoration _decorationForNotSum = TextDecoration.lineThrough;
   int _lengthForNotSum = 0;
 
   double _totalValue = 0.0;
@@ -93,31 +91,31 @@ class _BankSlipState extends State<BankSlipPage> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            if (_selected.isNotEmpty)
+            if (_bankSlips.any((bankSlip) => bankSlip.isSelected))
               IconButton(
                 onPressed: () {
                   _lengthForNotSum = 0;
                   for (var bankslip in _bankSlips) {
-                    if (_selected.contains(bankslip.barcode)) {
+                    if (bankslip.isSelected) {
                       setState(() {
                         bankslip.isNotToSum = !bankslip.isNotToSum;
                         _lengthForNotSum += bankslip.isNotToSum ? 1 : 0;
+                        bankslip.isSelected = false;
                       });
                     }
                   }
                   setState(() {
-                    _selected.clear();
                     _isLongPressed = false;
                   });
                   _updateTotalValue();
                 },
                 icon: Icon(Symbols.select),
               ),
-            if (_bankSlips.any((bankSlip) => bankSlip.selectedToDelete == true))
+            if (_bankSlips.any((bankSlip) => bankSlip.isSelected))
               IconButton(
                 onPressed: () {
                   setState(() {
-                    _bankSlips.removeWhere((bankslip) => bankslip.selectedToDelete);
+                    _bankSlips.removeWhere((bankslip) => bankslip.isSelected);
                   });
                   _updateTotalValue();
                 }, 
@@ -189,90 +187,36 @@ class _BankSlipState extends State<BankSlipPage> {
               child: Column(
                 children: [
                   for(BankSlip bankSlip in _bankSlips)
-                    GestureDetector(
-                      onTap: () {
-                        if (_isLongPressed) return;
-                        if (_bankSlips.any((bankSlip) => bankSlip.selectedToDelete == true)) {
-                          setState(() {
-                            bankSlip.selectedToDelete = !bankSlip.selectedToDelete;
-                          });
-                        } else {
-                          _updateClipboard(bankSlip.barcode);
-                        }
-                      },
-                      onLongPress: () {
-                        _isLongPressed = true;
+                    BankSlipCard(data: bankSlip, 
+                    onTap: () 
+                    {
+                      if (_isLongPressed) return;
+                      if (_bankSlips.any((bankSlip) => bankSlip.isSelected == true)) {
                         setState(() {
-                            bankSlip.selectedToDelete = !bankSlip.selectedToDelete;
-                          });
-                      },
-                      onTapDown: (details) {
-                        _isLongPressed = false;
-                      },
-                      onTapCancel: () {
-                        _isLongPressed = true;
-                      },
-                      child: Container(
-                      decoration: BoxDecoration(
-                        color: bankSlip.selectedToDelete ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
-                        border: Border.all(
-                          color:  Theme.of(context).colorScheme.onSurface,
-                          width: 1.0,
-                          style: BorderStyle.solid
-                        ),
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        spacing: 7,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${AppLocalizations.of(context)!.bankslip_page_barcode}:", style: TextStyle(
-                                fontWeight: FontWeight.w900, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
-                              )),
-                              Text(bankSlip.barcode, softWrap: true, 
-                                style: TextStyle(fontWeight: FontWeight.bold, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none)),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${AppLocalizations.of(context)!.date}:", style: TextStyle(
-                                    fontWeight: FontWeight.w800, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
-                                  )),
-                                  Text(DateFormat("dd/MM/yyyy").format(bankSlip.date), style: TextStyle(
-                                    color: Colors.green[600], decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
-                                  ))
-                                ],
-                              ),
-                              Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${AppLocalizations.of(context)!.value}:", style: TextStyle(
-                                    fontWeight: FontWeight.w800, decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
-                                  )),
-                                  Text(bankSlip.getCurrencyToString(), style: TextStyle(
-                                    color: Colors.green[600], decoration: bankSlip.isNotToSum ? _decorationForNotSum : TextDecoration.none
-                                    ))
-                                ],
-                              ),
-                            ]
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ]
+                          bankSlip.isSelected = !bankSlip.isSelected;
+                        });
+                      } else {
+                        _updateClipboard(bankSlip.barcode);
+                      }
+                    },
+                    onLongPress: () 
+                    {
+                      _isLongPressed = true;
+                      setState(() {
+                        bankSlip.isSelected = !bankSlip.isSelected;
+                      });
+                    },
+                    onTapDown: (details) 
+                    {
+                      _isLongPressed = false;
+                    },
+                    onTapCancel: () 
+                    {
+                      _isLongPressed = true;
+                    })
+                ]
             ),
           ),
-
           Positioned(
             left: 0,
             right: 0,

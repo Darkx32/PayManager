@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:pay_manager/core/bankslip_save.dart';
-import 'package:pay_manager/helpers/bank_slip_card.dart';
+import 'package:pay_manager/helpers/banks_slip_card.dart';
 import 'package:pay_manager/pages/bankslip_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               for (int i = bankSlips.length - 1; i >= 0;i--)
-                BankSlipCard(data: bankSlips[i].value, onEdit: (BankslipSave bankslipSave) => {
+                BanksSlipCard(data: bankSlips[i].value, onEdit: (BankslipSave bankslipSave) => {
                   setState(() {
                     _allBankslipsBox.put(bankSlips[i].key, bankslipSave);
                   })
