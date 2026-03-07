@@ -35,6 +35,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Do you really wants to make that?';
 
   @override
+  String get confirmation_popup_exit_bankslip_page =>
+      'Unsaved changes. Exit anyway?';
+
+  @override
   String get confirmation_popup_yes => 'Yes';
 
   @override

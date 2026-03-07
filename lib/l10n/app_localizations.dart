@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'Do you really wants to make that?'**
   String get confirmation_popup_description;
 
+  /// No description provided for @confirmation_popup_exit_bankslip_page.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved changes. Exit anyway?'**
+  String get confirmation_popup_exit_bankslip_page;
+
   /// No description provided for @confirmation_popup_yes.
   ///
   /// In en, this message translates to:

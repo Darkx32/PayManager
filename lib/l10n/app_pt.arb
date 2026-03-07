@@ -16,6 +16,8 @@
     "@bankslip_page_Amount": {},
     "confirmation_popup_description": "Você realmente deseja fazer isso?",
     "@confirmation_popup_description": {},
+    "confirmation_popup_exit_bankslip_page": "Alterações não salvas. Deseja sair mesmo assim?",
+    "@confirmation_popup_exit_bankslip_page": {},
     "confirmation_popup_yes": "Sim",
     "@confirmation_popup_yes": {},
     "confirmation_popup_no": "Não",

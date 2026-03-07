@@ -35,6 +35,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Você realmente deseja fazer isso?';
 
   @override
+  String get confirmation_popup_exit_bankslip_page =>
+      'Alterações não salvas. Deseja sair mesmo assim?';
+
+  @override
   String get confirmation_popup_yes => 'Sim';
 
   @override

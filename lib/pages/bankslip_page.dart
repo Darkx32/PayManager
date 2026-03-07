@@ -78,7 +78,7 @@ class _BankSlipState extends State<BankSlipPage> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (!listEquals(_bankSlips, _toEditCoppied)) {
-          bool? canClose = await ConfirmationPopup.show(context);
+          bool? canClose = await ConfirmationPopup.show(context, description: AppLocalizations.of(context)!.confirmation_popup_exit_bankslip_page);
           if (canClose == null || !context.mounted) return;
 
           if (canClose) {
