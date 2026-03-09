@@ -39,6 +39,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Alterações não salvas. Deseja sair mesmo assim?';
 
   @override
+  String get confirmation_popup_delete_home_page =>
+      'Você tem certeza que deseja deletar isto?';
+
+  @override
   String get confirmation_popup_yes => 'Sim';
 
   @override

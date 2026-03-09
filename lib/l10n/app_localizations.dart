@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @confirmation_popup_description.
   ///
   /// In en, this message translates to:
-  /// **'Do you really wants to make that?'**
+  /// **'Do you really want to make that?'**
   String get confirmation_popup_description;
 
   /// No description provided for @confirmation_popup_exit_bankslip_page.
@@ -151,6 +151,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unsaved changes. Exit anyway?'**
   String get confirmation_popup_exit_bankslip_page;
+
+  /// No description provided for @confirmation_popup_delete_home_page.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want delete this?'**
+  String get confirmation_popup_delete_home_page;
 
   /// No description provided for @confirmation_popup_yes.
   ///

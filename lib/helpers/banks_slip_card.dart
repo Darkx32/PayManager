@@ -69,7 +69,9 @@ class BanksSlipCard extends StatelessWidget {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap
                         ),
                         onPressed: () async {
-                          bool? userChoose = await ConfirmationPopup.show(context);
+                          bool? userChoose = await ConfirmationPopup.show(context, 
+                            description: AppLocalizations.of(context)!.confirmation_popup_delete_home_page
+                          );
                           if (userChoose == null) return;
 
                           if (userChoose) {
