@@ -18,7 +18,8 @@ class _HomePageState extends State<HomePage> {
   late Box<BankslipSave> _allBankslipsBox;
   bool _isLoading = true;
   final List<RecordDate> _allDates = [];
-  late List<MapEntry<dynamic, BankslipSave>> _bankSlips;
+  List<MapEntry<dynamic, BankslipSave>> get _bankSlips =>
+    _allBankslipsBox.toMap().entries.toList();
 
   Future<void> _initHive() async {
     await Hive.initFlutter();
@@ -32,7 +33,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _initLists() async {
-    _bankSlips = _allBankslipsBox.toMap().entries.toList();
     for (var bankSlip in _bankSlips) {
       String month = DateFormat.MMMM(Localizations.localeOf(context).toString()).format(bankSlip.value.date);
       bool exists = _allDates.any((item) =>
@@ -63,9 +63,8 @@ class _HomePageState extends State<HomePage> {
           final bankslipSave = await Navigator.push(context, MaterialPageRoute<BankslipSave>(builder: (context) => const BankSlipPage()));
           if (bankslipSave == null) return;
 
-          setState(() {
-            _allBankslipsBox.add(bankslipSave);
-          });
+          _allBankslipsBox.add(bankslipSave);
+          setState(() {});
         },
         shape: CircleBorder(),
         child: const Icon(Icons.add),
@@ -83,15 +82,13 @@ class _HomePageState extends State<HomePage> {
                   year: _allDates[i].year.toString(),
                   onDraw: (bankSlip) {
                     return BanksSlipCard(data: bankSlip.value,
-                      onEdit: (BankslipSave bankslipSave) => {
-                        setState(() {
-                          _allBankslipsBox.put(bankSlip.key, bankslipSave);
-                        })
+                      onEdit: (BankslipSave bankslipSave) {
+                        _allBankslipsBox.put(bankSlip.key, bankslipSave);
+                        setState(() {});
                       },
-                      onDelete: () => {
-                        setState(() {
-                          _allBankslipsBox.delete(bankSlip.key);
-                        })
+                      onDelete: () {
+                        _allBankslipsBox.delete(bankSlip.key);
+                        setState(() {});
                       }
                     );
                   },
