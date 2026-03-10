@@ -119,22 +119,20 @@ class _ScannerPageState extends State<ScannerPage> {
             controller: _controller,
             scanWindow: null,
             onDetect: (capture) async {
-              if (isPopped && !mounted) return;
+              if (isPopped && mounted) return;
 
-              for (final barcode in capture.barcodes) {
-                final displayValue = barcode.displayValue;
-                if (displayValue != null) {
-                  if (displayValue.length == 44 || displayValue.length == 47) {
-                    setState(() {
-                      isPopped = true;
-                    });
+              final displayValue = capture.barcodes.firstOrNull?.displayValue;
+              if (displayValue != null) {
+                if (displayValue.length == 44 || displayValue.length == 47) {
+                  setState(() {
+                    isPopped = true;
+                  });
 
-                    if (await Vibration.hasVibrator()) {
-                      Vibration.vibrate();
-                    }
-                    if (context.mounted) {
-                      await _showModalBottomSheet(context, displayValue);
-                    }
+                  if (await Vibration.hasVibrator()) {
+                    Vibration.vibrate();
+                  }
+                  if (context.mounted) {
+                    await _showModalBottomSheet(context, displayValue);
                   }
                 }
               }
