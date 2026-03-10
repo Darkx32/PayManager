@@ -119,7 +119,7 @@ class _ScannerPageState extends State<ScannerPage> {
             controller: _controller,
             scanWindow: null,
             onDetect: (capture) async {
-              if (isPopped && mounted) return;
+              if (isPopped || !mounted) return;
 
               final displayValue = capture.barcodes.firstOrNull?.displayValue;
               if (displayValue != null) {
