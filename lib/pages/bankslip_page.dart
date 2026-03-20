@@ -26,17 +26,22 @@ class _BankSlipState extends State<BankSlipPage> {
   bool _isLongPressed = false;
   int _lengthForNotSum = 0;
 
+  double _totalValueNotToSum = 0.0;
   double _totalValue = 0.0;
 
   void _updateTotalValue() {
     double newTotal = 0.0;
+    double newTotalNotToSum = 0.0;
+
     for (final bankSlip in _bankSlips) {
-      if (!bankSlip.isNotToSum) {
-        newTotal += bankSlip.value;
+      if (bankSlip.isNotToSum) {
+        newTotalNotToSum += bankSlip.value;
       }
+      newTotal += bankSlip.value;
     }
     setState(() {
       _totalValue = newTotal;
+      _totalValueNotToSum = newTotalNotToSum;
     });
   }
 
@@ -234,11 +239,28 @@ class _BankSlipState extends State<BankSlipPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(BankSlip.convertNumberToStringWithCurrency(_totalValue), style: 
-                    TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
-                  ),
-                  Text("${AppLocalizations.of(context)!.bankslip_page_Amount}: ${_bankSlips.length - _lengthForNotSum}", style: 
-                    TextStyle(fontWeight: FontWeight.w800, fontSize: 10, color: Theme.of(context).colorScheme.onPrimaryContainer)
+                  Row(
+                    spacing: 2,
+                    children: [
+                      Text(BankSlip.convertNumberToCurrency(_totalValue - _totalValueNotToSum), style: 
+                        TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Theme.of(context).colorScheme.onPrimaryContainer)
+                      ),
+                      if (_totalValueNotToSum > 0)
+                        Text("(+${BankSlip.convertNumberToCurrency(_totalValueNotToSum)})", style: 
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 15, color: Theme.of(context).colorScheme.secondary)
+                        )
+                  ]),
+                  Row(
+                    spacing: 2,
+                    children: [
+                      Text("${AppLocalizations.of(context)!.bankslip_page_Amount}: ${_bankSlips.length - _lengthForNotSum}", style: 
+                        TextStyle(fontWeight: FontWeight.w800, fontSize: 10, color: Theme.of(context).colorScheme.onPrimaryContainer)
+                      ),
+                      if (_totalValueNotToSum > 0)
+                        Text("(+$_lengthForNotSum)", style: 
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 8, color: Theme.of(context).colorScheme.secondary)
+                        ),
+                    ],
                   )
                 ],
               )
