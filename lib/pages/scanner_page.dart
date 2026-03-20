@@ -21,10 +21,13 @@ class _ScannerPageState extends State<ScannerPage> {
 
   Future<void> _showModalBottomSheet(BuildContext context, String barcode) async {
     final BankSlip? digitableCode = BankSlip.createBankSlipDataUsingBarcode(barcode);
-    if (digitableCode == null) return;
+    if (digitableCode == null) {
+      setState(() => isPopped = false);
+      return;
+    }
     final TextEditingController controller = TextEditingController(text: digitableCode.barcode.toBankslipFormat());
 
-    await showModalBottomSheet(
+    final String? result = await showModalBottomSheet<String>(
       showDragHandle: true,
       isScrollControlled: true,
       constraints: BoxConstraints(
@@ -65,9 +68,7 @@ class _ScannerPageState extends State<ScannerPage> {
                       )
                     ),
                     onPressed: () {
-                      Navigator.of(context)
-                        ..pop()
-                        ..pop(barcode);
+                      Navigator.of(context).pop(barcode);
                     }, child: Text(AppLocalizations.of(context)!.confirm, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold)))
                 ],
               ),
@@ -76,9 +77,15 @@ class _ScannerPageState extends State<ScannerPage> {
       }
     );
 
-    setState(() {
-      isPopped = false;
-    });
+    if (!context.mounted) return;
+
+    if (result != null) {
+      Navigator.of(context).pop(result);
+    } else {
+      setState(() {
+        isPopped = false;
+      });
+    }
   }
 
   @override

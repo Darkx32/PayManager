@@ -18,10 +18,10 @@ class BankSlip {
   BankSlip(this.barcode, this.date, this.value);
 
   String getCurrencyToString() {
-    return convertNumberToStringWithCurrency(value);
+    return convertNumberToCurrency(value);
   }
 
-  static String convertNumberToStringWithCurrency(double number) {
+  static String convertNumberToCurrency(double number) {
     return _currencyFormat.format(number);
   }
 

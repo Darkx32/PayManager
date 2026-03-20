@@ -24,7 +24,7 @@ class BanksSlipCard extends StatelessWidget {
     return GestureDetector(
             onLongPress: () async {
               await Clipboard.setData(ClipboardData(
-                text: BankSlip.convertNumberToStringWithCurrency(data.totalValue).substring(3)));
+                text: BankSlip.convertNumberToCurrency(data.totalValue).substring(3)));
             },
             child: 
             Container(
@@ -83,7 +83,7 @@ class BanksSlipCard extends StatelessWidget {
                     ]
                   ),
                   Center(
-                    child: Text(BankSlip.convertNumberToStringWithCurrency(data.totalValue), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
+                    child: Text(BankSlip.convertNumberToCurrency(data.totalValue), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
                       color: Colors.green[600])),
                   )
                 ],
