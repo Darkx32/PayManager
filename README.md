@@ -1,17 +1,18 @@
 # AppManager
 
-That's my app to manage bank slips of Brazil (Boletos bancários) this app is 100% free to use, and if you are a student, you can use this to learn more about Flutter apps.\
-**⚠️ Note: This app currently works only on Mobile. Desktop and web is not tested ⚠️**
+Este é o meu aplicativo para gerenciar boletos bancários. Este aplicativo é 100% gratuito para uso e, se você for um estudante, pode usá-lo para aprender mais sobre aplicativos em Flutter.\
+Para acessar a versão em inglês deste **README**, clique aqui [Inglês](docs/README_EN.md). \
+**⚠️ Nota: Este aplicativo atualmente funciona apenas em dispositivos móveis. As versões para desktop e web não foram testadas. ⚠️**
 
-### Usage
+### Uso
 
-That app has different pages:
-- **Home Page:** History of all bankslips saved
-- **Bankslip Page:** Dedicated to scan and handle your bankslips
-- **Scan Page & Write Page:** Usually for adding new bank slips into History
+Este aplicativo possui diferentes páginas:
+- **Página Inicial (Home):** Histórico de todos os boletos salvos
+- **Página do Boleto:** Dedicada a escanear e gerenciar seus boletos
+- **Página de Escaneamento e Página de Digitação:** Geralmente usadas para adicionar novos boletos ao Histórico
 
-### Building
+### Como compilar
 
-It's 100% free to build and use, but **commercial use it not allowed**.\
-To compile, just install Flutter and choose your target device.
-You can also download the release version in Release section on github. 
+É 100% gratuito para compilar e usar, mas **o uso comercial não é permitido**.\
+Para compilar, basta instalar o Flutter e escolher o seu dispositivo de destino.
+Você também pode baixar a versão finalizada na seção de *Releases* no GitHub.
