@@ -22,17 +22,18 @@ class _HomePageState extends State<HomePage> {
     _allBankslipsBox.toMap().entries.toList();
 
   Future<void> _initHive() async {
+    _isLoading = true;
     await Hive.initFlutter();
     Hive.registerAdapter(BankslipSaveAdapter());
     _allBankslipsBox = await Hive.openBox<BankslipSave>("bankslips");
 
-    await _initLists();
+    _updateAllDates();
     setState(() {
       _isLoading = false;
     });
   }
 
-  Future<void> _initLists() async {
+  void _updateAllDates() {
     for (var bankSlip in _bankSlips) {
       String month = DateFormat.MMMM(Localizations.localeOf(context).toString()).format(bankSlip.value.date);
       bool exists = _allDates.any((item) =>
@@ -64,7 +65,9 @@ class _HomePageState extends State<HomePage> {
           if (bankslipSave == null) return;
 
           _allBankslipsBox.add(bankslipSave);
-          setState(() {});
+          setState(() {
+            _initHive();
+          });
         },
         shape: CircleBorder(),
         child: const Icon(Icons.add),

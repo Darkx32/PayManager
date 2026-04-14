@@ -102,12 +102,12 @@ class _BankSlipState extends State<BankSlipPage> {
                   _lengthForNotSum = 0;
                   for (var bankslip in _bankSlips) {
                     if (bankslip.isSelected) {
-                      setState(() {
-                        bankslip.isNotToSum = !bankslip.isNotToSum;
-                        _lengthForNotSum += bankslip.isNotToSum ? 1 : 0;
-                        bankslip.isSelected = false;
-                      });
+                      bankslip.isNotToSum = !bankslip.isNotToSum;
+                      bankslip.isSelected = false;
                     }
+                    setState(() {
+                      _lengthForNotSum += bankslip.isNotToSum ? 1 : 0;
+                    });
                   }
                   setState(() {
                     _isLongPressed = false;
