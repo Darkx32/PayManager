@@ -24,10 +24,13 @@ class _HomePageState extends State<HomePage> {
   Future<void> _initHive() async {
     _isLoading = true;
     await Hive.initFlutter();
-    Hive.registerAdapter(BankslipSaveAdapter());
+    if (!Hive.isAdapterRegistered(BankslipSaveAdapter().typeId)){
+      Hive.registerAdapter(BankslipSaveAdapter());
+    }
     _allBankslipsBox = await Hive.openBox<BankslipSave>("bankslips");
 
     _updateAllDates();
+    debugPrint("Testing");
     setState(() {
       _isLoading = false;
     });
