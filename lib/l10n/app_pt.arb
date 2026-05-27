@@ -29,5 +29,13 @@
     "scanner_page_barcode_detect": "Código de barras foi detectado!",
     "@scanner_page_barcode_detect": {},
     "scanner_page_cancel": "Cancelar",
-    "@scanner_page_cancel": {}
+    "@scanner_page_cancel": {},
+    "settings_title_page": "Configurações",
+    "@settings_title_page": {},
+    "settings_toggle_theme": "DarkMode",
+    "@settings_toggle_theme": {},
+    "settings_enable_max": "Filtro",
+    "@settings_enable_max": {},
+    "settings_max_value": "Valor máximo",
+    "@settings_max_value": {}
 }
