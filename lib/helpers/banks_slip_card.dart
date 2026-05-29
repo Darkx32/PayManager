@@ -29,7 +29,15 @@ class BanksSlipCard extends StatelessWidget {
             child: 
             Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade600,
+                      spreadRadius: 3,
+                      blurRadius: 5,
+                      offset: Offset(0, 3)
+                    )
+                  ],
+                  color: Theme.of(context).colorScheme.surfaceContainerLow,
                   border: Border.all(
                     color:  Theme.of(context).colorScheme.onSurface,
                     width: 1.0,

@@ -27,7 +27,7 @@ class _BanksSlipCollapseState extends State<BanksSlipCollapse> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         border: Border.all(
           color:  Theme.of(context).colorScheme.onSurface,
           width: 1.0,

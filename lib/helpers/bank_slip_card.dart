@@ -29,13 +29,21 @@ class BankSlipCard extends StatelessWidget {
             onTapCancel: onTapCancel,
             child: Container(
             decoration: BoxDecoration(
-              color: data.isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainerHigh,
+              color: data.isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.surfaceContainer,
               border: Border.all(
                 color:  Theme.of(context).colorScheme.onSurface,
                 width: 1.0,
                 style: BorderStyle.solid
               ),
-              borderRadius: BorderRadius.circular(10)
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade600,
+                  spreadRadius: 2,
+                  blurRadius: 3,
+                  offset: Offset(2, 3)
+                )
+              ]
             ),
             padding: EdgeInsets.all(10),
             margin: EdgeInsets.only(bottom: 10),
