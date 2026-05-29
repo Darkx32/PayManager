@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     _allBankslipsBox = await Hive.openBox<BankslipSave>("bankslips");
 
     _updateAllDates();
-    debugPrint("Testing");
     setState(() {
       _isLoading = false;
     });
@@ -62,18 +61,33 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final bankslipSave = await Navigator.push(context, MaterialPageRoute<BankslipSave>(builder: (context) => const BankSlipPage()));
-          if (bankslipSave == null) return;
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.small(
+            heroTag: "Settings",
+            onPressed: () {
+              Navigator.pushNamed(context, "/settings");
+            },
+            shape: CircleBorder(),
+            child: const Icon(Icons.settings),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            heroTag: "New",
+            onPressed: () async {
+              final bankslipSave = await Navigator.push(context, MaterialPageRoute<BankslipSave>(builder: (context) => const BankSlipPage()));
+              if (bankslipSave == null) return;
 
-          _allBankslipsBox.add(bankslipSave);
-          setState(() {
-            _initHive();
-          });
-        },
-        shape: CircleBorder(),
-        child: const Icon(Icons.add),
+              _allBankslipsBox.add(bankslipSave);
+              setState(() {
+                _initHive();
+              });
+            },
+            shape: CircleBorder(),
+            child: const Icon(Icons.add),
+          )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(12),

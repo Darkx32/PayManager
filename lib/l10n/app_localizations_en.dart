@@ -56,4 +56,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanner_page_cancel => 'Cancel';
+
+  @override
+  String get settings_title_page => 'Settings';
+
+  @override
+  String get settings_toggle_theme => 'DarkMode';
+
+  @override
+  String get settings_enable_max => 'Filter';
+
+  @override
+  String get settings_max_value => 'Max value';
 }

@@ -187,6 +187,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get scanner_page_cancel;
+
+  /// No description provided for @settings_title_page.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_title_page;
+
+  /// No description provided for @settings_toggle_theme.
+  ///
+  /// In en, this message translates to:
+  /// **'DarkMode'**
+  String get settings_toggle_theme;
+
+  /// No description provided for @settings_enable_max.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get settings_enable_max;
+
+  /// No description provided for @settings_max_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Max value'**
+  String get settings_max_value;
 }
 
 class _AppLocalizationsDelegate

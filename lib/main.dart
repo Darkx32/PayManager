@@ -2,12 +2,22 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:pay_manager/l10n/app_localizations.dart";
 import "package:pay_manager/pages/home_page.dart";
+import "package:pay_manager/pages/settings_page.dart";
+import "package:pay_manager/preferences.dart";
+import "package:provider/provider.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(const PayManagerApp()); 
+  final prefs = await SharedPreferences.getInstance();
+  bool isDarkMode = prefs.getBool("isDarkMode") ?? true;
+
+  runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => ThemeNotifier(isDarkMode))
+    ], child: const PayManagerApp(),
+  )); 
 }
 
 class PayManagerApp extends StatefulWidget {
@@ -22,6 +32,7 @@ class _PayManagerState extends State<PayManagerApp> {
   Widget build(BuildContext context) {
     final Locale deviceLocale = WidgetsBinding.instance.platformDispatcher.locale;
     final String languageCode = ["en", "pt"].contains(deviceLocale.languageCode) ? deviceLocale.languageCode : "pt";
+    final themeNotifier = context.watch<ThemeNotifier>();
 
     return MaterialApp(
       title: "PayManager",
@@ -42,10 +53,11 @@ class _PayManagerState extends State<PayManagerApp> {
         ),
         fontFamily: "Poppins"
       ),
-      themeMode: ThemeMode.system,
+      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage()
+        '/': (context) => const HomePage(),
+        '/settings': (context) => const SettingsPage()
       },
     );
   }
