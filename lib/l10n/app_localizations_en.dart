@@ -68,4 +68,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_max_value => 'Max value';
+
+  @override
+  String get backup_dont_have_data => 'No saved data found';
+
+  @override
+  String get backup_locale_to_save => 'Where do you want to save your backup?';
+
+  @override
+  String get backup_saved => 'Backup saved';
+
+  @override
+  String get backup_select_backup => 'Select a backup to import';
+
+  @override
+  String get backup_loaded => 'Backup loaded';
 }
