@@ -68,4 +68,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_max_value => 'Valor máximo';
+
+  @override
+  String get backup_dont_have_data => 'Você não possui dados salvos';
+
+  @override
+  String get backup_locale_to_save => 'Onde você deseja salvar o seu backup?';
+
+  @override
+  String get backup_saved => 'Backup salvo com sucesso';
+
+  @override
+  String get backup_select_backup => 'Selecione o backup que deseja importar';
+
+  @override
+  String get backup_loaded => 'Backup carregado com sucesso';
 }

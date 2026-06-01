@@ -37,5 +37,15 @@
     "settings_enable_max": "Filter",
     "@settings_enable_max": {},
     "settings_max_value": "Max value",
-    "@settings_max_value": {}
+    "@settings_max_value": {},
+    "backup_dont_have_data": "No saved data found",
+    "@backup_dont_have_data": {},
+    "backup_locale_to_save": "Where do you want to save your backup?",
+    "@backup_locale_to_save": {},
+    "backup_saved": "Backup saved",
+    "@backup_saved": {},
+    "backup_select_backup": "Select a backup to import",
+    "@backup_select_backup": {},
+    "backup_loaded": "Backup loaded",
+    "@backup_loaded": {}
 }

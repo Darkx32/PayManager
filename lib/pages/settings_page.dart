@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_manager/core/backup_system.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/preferences.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +63,31 @@ class _SettingsPageState extends State<SettingsPage> {
                     })
                 ],
               )
+            ),
+            Spacer(),
+            Container(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(16)
+                    ),
+                    onPressed: () { BackupSystem.importBackup(context, "bankslips"); },
+                    child: const Icon(Icons.download, size: 30),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(16)
+                    ),
+                    onPressed: () { BackupSystem.exportBackup(context, "bankslips"); }, 
+                    child: const Icon(Icons.upload, size: 30),
+                  )
+                ],
+              ),
             )
           ],
         ),

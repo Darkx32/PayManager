@@ -211,6 +211,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Max value'**
   String get settings_max_value;
+
+  /// No description provided for @backup_dont_have_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved data found'**
+  String get backup_dont_have_data;
+
+  /// No description provided for @backup_locale_to_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you want to save your backup?'**
+  String get backup_locale_to_save;
+
+  /// No description provided for @backup_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved'**
+  String get backup_saved;
+
+  /// No description provided for @backup_select_backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a backup to import'**
+  String get backup_select_backup;
+
+  /// No description provided for @backup_loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup loaded'**
+  String get backup_loaded;
 }
 
 class _AppLocalizationsDelegate

@@ -36,8 +36,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updateAllDates() {
+    final dateFormater = DateFormat.MMMM(Localizations.localeOf(context).toString());
+
     for (var bankSlip in _bankSlips) {
-      String month = DateFormat.MMMM(Localizations.localeOf(context).toString()).format(bankSlip.value.date);
+      String month = dateFormater.format(bankSlip.value.date);
       bool exists = _allDates.any((item) =>
         item.month == month &&
         item.year == bankSlip.value.date.year);
@@ -66,8 +68,11 @@ class _HomePageState extends State<HomePage> {
         children: [
           FloatingActionButton.small(
             heroTag: "Settings",
-            onPressed: () {
-              Navigator.pushNamed(context, "/settings");
+            onPressed: () async {
+              await Navigator.pushNamed(context, "/settings");
+              setState(() {
+                _initHive();
+              });
             },
             shape: CircleBorder(),
             child: const Icon(Icons.settings),
