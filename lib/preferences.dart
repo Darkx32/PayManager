@@ -12,3 +12,15 @@ class ThemeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class RepeatedNotifier extends ChangeNotifier {
+  bool canRepeated;
+  RepeatedNotifier(this.canRepeated);
+
+  Future<void> toggleRepeated() async {
+    canRepeated = !canRepeated;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("canRepeated", canRepeated);
+    notifyListeners();
+  }
+}

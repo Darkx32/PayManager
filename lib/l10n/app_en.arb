@@ -34,6 +34,8 @@
     "@settings_title_page": {},
     "settings_toggle_theme": "DarkMode",
     "@settings_toggle_theme": {},
+    "settings_toggle_repeated": "Repeated",
+    "@settings_toggle_repeated": {},
     "settings_enable_max": "Filter",
     "@settings_enable_max": {},
     "settings_max_value": "Max value",

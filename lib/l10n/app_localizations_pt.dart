@@ -61,7 +61,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_title_page => 'Configurações';
 
   @override
-  String get settings_toggle_theme => 'DarkMode';
+  String get settings_toggle_theme => 'Tema escuro';
+
+  @override
+  String get settings_toggle_repeated => 'Repetido';
 
   @override
   String get settings_enable_max => 'Filtro';

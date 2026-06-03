@@ -200,6 +200,12 @@ abstract class AppLocalizations {
   /// **'DarkMode'**
   String get settings_toggle_theme;
 
+  /// No description provided for @settings_toggle_repeated.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeated'**
+  String get settings_toggle_repeated;
+
   /// No description provided for @settings_enable_max.
   ///
   /// In en, this message translates to:

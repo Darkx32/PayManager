@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_manager/core/backup_system.dart';
+import 'package:pay_manager/helpers/settings_switcher.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/preferences.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +19,19 @@ class _SettingsPageState extends State<SettingsPage> {
       WidgetState.any: Icon(Icons.light_mode)
     });
 
+  static const WidgetStateProperty<Icon> acceptSwitchIcon = 
+    WidgetStateProperty<Icon>.fromMap(<WidgetStatesConstraint, Icon> {
+      WidgetState.selected: Icon(Icons.done),
+      WidgetState.any: Icon(Icons.close)
+    });
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = context.watch<ThemeNotifier>();
+    final repeatedNotifier = context.watch<RepeatedNotifier>();
 
     bool isDarkMode = themeNotifier.isDarkMode;
+    bool canRepeated = repeatedNotifier.canRepeated;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,38 +40,25 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Container(
         padding: EdgeInsets.all(12),
         child: Column(
+          spacing: 15,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade600,
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: Offset(0, 3)
-                  )
-                ],
-                color: Theme.of(context).colorScheme.surfaceContainer,
-                border: BoxBorder.all(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  strokeAlign: BorderSide.strokeAlignOutside
-                ),
-                borderRadius: BorderRadius.circular(15)
-              ),
-              child: Row(
-                children: [
-                  Text(AppLocalizations.of(context)!.settings_toggle_theme,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                  Spacer(),
-                  Switch(value: isDarkMode, 
-                    thumbIcon: themeSwitchIcon,
-                    onChanged: (bool value) {
-                      isDarkMode = value;
-                      themeNotifier.toggleTheme();
-                    })
-                ],
-              )
+            SettingsSwitcher(
+              title: AppLocalizations.of(context)!.settings_toggle_theme,
+              value: isDarkMode, 
+              switchIcon: themeSwitchIcon, 
+              onChange: (bool value) {
+                isDarkMode = value;
+                themeNotifier.toggleTheme();
+              }
+            ),
+            SettingsSwitcher(
+              title: AppLocalizations.of(context)!.settings_toggle_repeated, 
+              value: canRepeated, 
+              switchIcon: acceptSwitchIcon, 
+              onChange: (bool value) {
+                canRepeated = value;
+                repeatedNotifier.toggleRepeated();
+              }
             ),
             Spacer(),
             Container(

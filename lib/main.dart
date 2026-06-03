@@ -13,9 +13,11 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   bool isDarkMode = prefs.getBool("isDarkMode") ?? true;
+  bool canRepeated = prefs.getBool("canRepeated") ?? true;
 
   runApp(MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => ThemeNotifier(isDarkMode))
+      ChangeNotifierProvider(create: (_) => ThemeNotifier(isDarkMode)),
+      ChangeNotifierProvider(create: (_) => RepeatedNotifier(canRepeated))
     ], child: const PayManagerApp(),
   )); 
 }

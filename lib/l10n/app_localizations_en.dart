@@ -64,6 +64,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_toggle_theme => 'DarkMode';
 
   @override
+  String get settings_toggle_repeated => 'Repeated';
+
+  @override
   String get settings_enable_max => 'Filter';
 
   @override
