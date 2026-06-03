@@ -18,6 +18,7 @@
     "settings_title_page": "Configurações",
     "settings_toggle_theme": "Tema escuro",
     "settings_toggle_repeated": "Repetido",
+    "settings_toggle_repeated_tooltip": "Disabilita a chance de adicionar um boleto repetido.",
     "settings_enable_max": "Filtro",
     "settings_max_value": "Valor máximo",
     "backup_dont_have_data": "Você não possui dados salvos",

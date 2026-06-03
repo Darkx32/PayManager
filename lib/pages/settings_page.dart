@@ -49,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onChange: (bool value) {
                 isDarkMode = value;
                 themeNotifier.toggleTheme();
-              }
+              },
             ),
             SettingsSwitcher(
               title: AppLocalizations.of(context)!.settings_toggle_repeated, 
@@ -58,7 +58,8 @@ class _SettingsPageState extends State<SettingsPage> {
               onChange: (bool value) {
                 canRepeated = value;
                 repeatedNotifier.toggleRepeated();
-              }
+              },
+              tooltip: AppLocalizations.of(context)!.settings_toggle_repeated_tooltip
             ),
             Spacer(),
             Container(

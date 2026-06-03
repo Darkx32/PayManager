@@ -36,6 +36,8 @@
     "@settings_toggle_theme": {},
     "settings_toggle_repeated": "Repeated",
     "@settings_toggle_repeated": {},
+    "settings_toggle_repeated_tooltip": "Disable repeated bankslips on scan page",
+    "@settings_toggle_repeated_tooltip": {},
     "settings_enable_max": "Filter",
     "@settings_enable_max": {},
     "settings_max_value": "Max value",

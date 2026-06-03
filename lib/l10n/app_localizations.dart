@@ -206,6 +206,12 @@ abstract class AppLocalizations {
   /// **'Repeated'**
   String get settings_toggle_repeated;
 
+  /// No description provided for @settings_toggle_repeated_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable repeated bankslips on scan page'**
+  String get settings_toggle_repeated_tooltip;
+
   /// No description provided for @settings_enable_max.
   ///
   /// In en, this message translates to:

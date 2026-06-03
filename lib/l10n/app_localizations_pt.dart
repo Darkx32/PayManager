@@ -67,6 +67,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_toggle_repeated => 'Repetido';
 
   @override
+  String get settings_toggle_repeated_tooltip =>
+      'Disabilita a chance de adicionar um boleto repetido.';
+
+  @override
   String get settings_enable_max => 'Filtro';
 
   @override

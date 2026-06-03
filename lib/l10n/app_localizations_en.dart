@@ -67,6 +67,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_toggle_repeated => 'Repeated';
 
   @override
+  String get settings_toggle_repeated_tooltip =>
+      'Disable repeated bankslips on scan page';
+
+  @override
   String get settings_enable_max => 'Filter';
 
   @override
