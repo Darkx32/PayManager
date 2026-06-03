@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> {
   final List<RecordDate> _allDates = [];
   List<MapEntry<dynamic, BankslipSave>> get _bankSlips =>
     _allBankslipsBox.toMap().entries.toList();
+  final ScrollController _scrollController = ScrollController();
+  bool _showSecondFab = false;
 
   Future<void> _initHive() async {
     _isLoading = true;
@@ -50,10 +52,37 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _scrollListener() {
+    if (!_scrollController.hasClients) return;
+
+    final position = _scrollController.position;
+    const double threshold = 50.0;
+    final bool isPullingDown = position.pixels < -threshold;
+    final bool isPullingUp = position.pixels > (position.maxScrollExtent + threshold);
+
+    if (isPullingUp) {
+      setState(() {
+        _showSecondFab = true;
+      });
+    } else if (isPullingDown) {
+      setState(() {
+        _showSecondFab = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _initHive();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -66,16 +95,21 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton.small(
-            heroTag: "Settings",
-            onPressed: () async {
-              await Navigator.pushNamed(context, "/settings");
-              setState(() {
-                _initHive();
-              });
-            },
-            shape: CircleBorder(),
-            child: const Icon(Icons.settings),
+          AnimatedScale(
+            scale: _showSecondFab ? 1.0 : 0.0, 
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.bounceInOut,
+            child: FloatingActionButton.small(
+              heroTag: "Settings",
+              onPressed: () async {
+                await Navigator.pushNamed(context, "/settings");
+                setState(() {
+                  _initHive();
+                });
+              },
+              shape: CircleBorder(),
+              child: const Icon(Icons.settings),
+            ),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
@@ -95,9 +129,15 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         padding: EdgeInsets.all(12),
         child: SingleChildScrollView(
+          controller: _scrollController,
           padding: EdgeInsets.only(top: 50, bottom: 80),
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()
+          ),
           child: Column(
             children: [
               for (int i = _allDates.length - 1; i >= 0; --i) 

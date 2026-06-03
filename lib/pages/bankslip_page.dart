@@ -10,6 +10,8 @@ import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/pages/confirmation_popup.dart';
 import 'package:pay_manager/pages/scanner_page.dart';
 import 'package:pay_manager/pages/writebarcode_page.dart';
+import 'package:pay_manager/preferences.dart';
+import 'package:provider/provider.dart';
 
 class BankSlipPage extends StatefulWidget {
   const BankSlipPage({super.key, this.toEdit = const []});
@@ -79,6 +81,8 @@ class _BankSlipState extends State<BankSlipPage> {
 
   @override
   Widget build(BuildContext context) {
+    final RepeatedNotifier repeatedNotifier = context.watch<RepeatedNotifier>();
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -141,6 +145,9 @@ class _BankSlipState extends State<BankSlipPage> {
                 final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
 
                 if (bankSlip == null) return;
+                if (!repeatedNotifier.canRepeated) {
+                  if (_bankSlips.contains(bankSlip)) return;
+                }
                 setState(() {
                   _bankSlips.add(bankSlip);
                 });
@@ -156,6 +163,9 @@ class _BankSlipState extends State<BankSlipPage> {
                 final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
 
                 if (bankSlip == null) return;
+                if (!repeatedNotifier.canRepeated) {
+                  if (_bankSlips.contains(bankSlip)) return;
+                }
                 setState(() {
                   _bankSlips.add(bankSlip);
                 });
