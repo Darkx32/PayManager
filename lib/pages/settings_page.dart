@@ -9,7 +9,6 @@ import 'package:pay_manager/helpers/settings_switcher.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
