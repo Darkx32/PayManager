@@ -82,6 +82,7 @@ class _BankSlipState extends State<BankSlipPage> {
   @override
   Widget build(BuildContext context) {
     final RepeatedNotifier repeatedNotifier = context.watch<RepeatedNotifier>();
+    final AutoExclude autoExclude = context.watch<AutoExclude>();
 
     return PopScope(
       canPop: false,
@@ -148,6 +149,9 @@ class _BankSlipState extends State<BankSlipPage> {
                 if (!repeatedNotifier.canRepeated) {
                   if (_bankSlips.contains(bankSlip)) return;
                 }
+                if (autoExclude.canExclude) {
+                  if (bankSlip.value > autoExclude.minimalValue) bankSlip.isNotToSum = true;
+                }
                 setState(() {
                   _bankSlips.add(bankSlip);
                 });
@@ -165,6 +169,9 @@ class _BankSlipState extends State<BankSlipPage> {
                 if (bankSlip == null) return;
                 if (!repeatedNotifier.canRepeated) {
                   if (_bankSlips.contains(bankSlip)) return;
+                }
+                if (autoExclude.canExclude) {
+                  if (bankSlip.value > autoExclude.minimalValue) bankSlip.isNotToSum = true;
                 }
                 setState(() {
                   _bankSlips.add(bankSlip);

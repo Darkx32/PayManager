@@ -67,10 +67,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_toggle_repeated => 'Repetido';
 
   @override
-  String get settings_enable_max => 'Filtro';
+  String get settings_toggle_repeated_tooltip =>
+      'Disabilita a chance de adicionar um boleto repetido.';
 
   @override
-  String get settings_max_value => 'Valor máximo';
+  String get settings_enable_max => 'Auto excluir';
+
+  @override
+  String get settings_max_value => 'Valor mínimo';
+
+  @override
+  String get settings_max_tooltip =>
+      'Boleto acima desse valor é marcado para não somar automaticamente';
 
   @override
   String get backup_dont_have_data => 'Você não possui dados salvos';

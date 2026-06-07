@@ -67,10 +67,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_toggle_repeated => 'Repeated';
 
   @override
-  String get settings_enable_max => 'Filter';
+  String get settings_toggle_repeated_tooltip =>
+      'Disable repeated bankslips on scan page';
 
   @override
-  String get settings_max_value => 'Max value';
+  String get settings_enable_max => 'Auto exclude';
+
+  @override
+  String get settings_max_value => 'Minimum value';
+
+  @override
+  String get settings_max_tooltip =>
+      'Payment slips exceeding this amount are marked to not disappear automatically';
 
   @override
   String get backup_dont_have_data => 'No saved data found';
