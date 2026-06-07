@@ -24,3 +24,23 @@ class RepeatedNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class AutoExclude extends ChangeNotifier {
+  bool canExclude;
+  double minimalValue;
+  AutoExclude(this.canExclude, this.minimalValue);
+
+  Future<void> toggleExclude() async {
+    canExclude = !canExclude;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("canExclude", canExclude);
+    notifyListeners();
+  }
+
+  Future<void> setValue(double value) async {
+    minimalValue = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble("minimalValue", minimalValue);
+    notifyListeners();
+  }
+}

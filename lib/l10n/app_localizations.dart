@@ -215,14 +215,20 @@ abstract class AppLocalizations {
   /// No description provided for @settings_enable_max.
   ///
   /// In en, this message translates to:
-  /// **'Filter'**
+  /// **'Auto exclude'**
   String get settings_enable_max;
 
   /// No description provided for @settings_max_value.
   ///
   /// In en, this message translates to:
-  /// **'Max value'**
+  /// **'Minimum value'**
   String get settings_max_value;
+
+  /// No description provided for @settings_max_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment slips exceeding this amount are marked to not disappear automatically'**
+  String get settings_max_tooltip;
 
   /// No description provided for @backup_dont_have_data.
   ///

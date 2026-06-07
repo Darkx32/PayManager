@@ -15,9 +15,14 @@ void main() async {
   bool isDarkMode = prefs.getBool("isDarkMode") ?? true;
   bool canRepeated = prefs.getBool("canRepeated") ?? true;
 
+  // Auto Exclude
+  bool canExclude = prefs.getBool("canExclude") ?? false;
+  double minimalValue = prefs.getDouble("minimalValue") ?? 2000.0;
+
   runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => ThemeNotifier(isDarkMode)),
-      ChangeNotifierProvider(create: (_) => RepeatedNotifier(canRepeated))
+      ChangeNotifierProvider(create: (_) => RepeatedNotifier(canRepeated)),
+      ChangeNotifierProvider(create: (_) => AutoExclude(canExclude, minimalValue))
     ], child: const PayManagerApp(),
   )); 
 }
