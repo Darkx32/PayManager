@@ -6,6 +6,8 @@ import 'package:pay_manager/core/bankslip_save.dart';
 import 'package:pay_manager/l10n/app_localizations.dart';
 import 'package:pay_manager/pages/bankslip_page.dart';
 import 'package:pay_manager/pages/confirmation_popup.dart';
+import 'package:pay_manager/preferences.dart';
+import 'package:provider/provider.dart';
 
 class BanksSlipCard extends StatelessWidget {
   final BankslipSave data;
@@ -22,6 +24,7 @@ class BanksSlipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateFormater = DateFormat("dd/MM/yyyy");
+    final AutoExclude autoExclude = context.watch<AutoExclude>();
 
     return GestureDetector(
             onLongPress: () async {
@@ -61,7 +64,12 @@ class BanksSlipCard extends StatelessWidget {
                           ),
                           onPressed: () async {
                             final bankslipSave = await Navigator.push(context, MaterialPageRoute<BankslipSave>(
-                              builder: (context) => BankSlipPage(toEdit: data.barcodes)
+                              builder: (context) { 
+                                if (autoExclude.canExclude) {
+                                  return BankSlipPage(toEdit: data.barcodes, minimalValue: autoExclude.minimalValue);
+                                }
+                                return BankSlipPage(toEdit: data.barcodes);
+                              }
                             ));
                             if (bankslipSave == null) return;
 
