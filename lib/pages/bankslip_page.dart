@@ -14,8 +14,9 @@ import 'package:pay_manager/preferences.dart';
 import 'package:provider/provider.dart';
 
 class BankSlipPage extends StatefulWidget {
-  const BankSlipPage({super.key, this.toEdit = const []});
+  const BankSlipPage({super.key, this.toEdit = const [], this.autoExclude});
   final List<String> toEdit;
+  final AutoExclude? autoExclude;
 
   @override
   State<StatefulWidget> createState() => _BankSlipState();
@@ -35,9 +36,11 @@ class _BankSlipState extends State<BankSlipPage> {
     double newTotal = 0.0;
     double newTotalNotToSum = 0.0;
 
+    _lengthForNotSum = 0;
     for (final bankSlip in _bankSlips) {
       if (bankSlip.isNotToSum) {
         newTotalNotToSum += bankSlip.value;
+        _lengthForNotSum++;
       }
       newTotal += bankSlip.value;
     }
@@ -63,10 +66,8 @@ class _BankSlipState extends State<BankSlipPage> {
           finalList.add(bankSlip);
         }
       }
-      setState(() {
-        _bankSlips.addAll(finalList);
-        _toEditCoppied.addAll(finalList);
-      });
+      _bankSlips.addAll(finalList);
+      _toEditCoppied.addAll(finalList);
     }
     _updateTotalValue();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); 
@@ -110,13 +111,8 @@ class _BankSlipState extends State<BankSlipPage> {
                       bankslip.isNotToSum = !bankslip.isNotToSum;
                       bankslip.isSelected = false;
                     }
-                    setState(() {
-                      _lengthForNotSum += bankslip.isNotToSum ? 1 : 0;
-                    });
                   }
-                  setState(() {
-                    _isLongPressed = false;
-                  });
+                  _isLongPressed = false;
                   _updateTotalValue();
                 },
                 icon: Icon(Symbols.select),
@@ -152,9 +148,7 @@ class _BankSlipState extends State<BankSlipPage> {
                 if (autoExclude.canExclude) {
                   if (bankSlip.value > autoExclude.minimalValue) bankSlip.isNotToSum = true;
                 }
-                setState(() {
-                  _bankSlips.add(bankSlip);
-                });
+                _bankSlips.add(bankSlip);
                 _updateTotalValue();
               },
               child: const Icon(Symbols.barcode_scanner)),
@@ -173,9 +167,7 @@ class _BankSlipState extends State<BankSlipPage> {
                 if (autoExclude.canExclude) {
                   if (bankSlip.value > autoExclude.minimalValue) bankSlip.isNotToSum = true;
                 }
-                setState(() {
-                  _bankSlips.add(bankSlip);
-                });
+                _bankSlips.add(bankSlip);
                 _updateTotalValue();
               },
               child: const Icon(Symbols.barcode)),
