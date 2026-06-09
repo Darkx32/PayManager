@@ -6,8 +6,6 @@ import 'package:pay_manager/core/record_date.dart';
 import 'package:pay_manager/helpers/banks_slip_card.dart';
 import 'package:pay_manager/helpers/banks_slip_collapse.dart';
 import 'package:pay_manager/pages/bankslip_page.dart';
-import 'package:pay_manager/preferences.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -89,8 +87,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final AutoExclude autoExclude = context.watch<AutoExclude>();
-
     if (_isLoading) {
       return Scaffold(body: Center(child: CircularProgressIndicator()));
     }

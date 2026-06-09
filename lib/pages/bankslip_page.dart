@@ -14,9 +14,9 @@ import 'package:pay_manager/preferences.dart';
 import 'package:provider/provider.dart';
 
 class BankSlipPage extends StatefulWidget {
-  const BankSlipPage({super.key, this.toEdit = const [], this.autoExclude});
+  const BankSlipPage({super.key, this.toEdit = const [], this.minimalValue});
   final List<String> toEdit;
-  final AutoExclude? autoExclude;
+  final double? minimalValue;
 
   @override
   State<StatefulWidget> createState() => _BankSlipState();
@@ -63,6 +63,9 @@ class _BankSlipState extends State<BankSlipPage> {
         final bankSlip = BankSlip.createBankSlipDataUsingBarcode(barcode);
 
         if (bankSlip != null) {
+          if (widget.minimalValue != null) {
+            bankSlip.isNotToSum = widget.minimalValue! <= bankSlip.value ? true : false;
+          }
           finalList.add(bankSlip);
         }
       }
